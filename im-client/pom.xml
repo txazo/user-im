@@ -11,11 +11,11 @@
     </parent>
 
     <groupId>org.txazo.userim</groupId>
-    <artifactId>im-server</artifactId>
+    <artifactId>im-client</artifactId>
     <version>1.0.0-snapshot</version>
     <packaging>jar</packaging>
 
-    <name>im-server</name>
+    <name>im-client</name>
 
     <properties>
         <java.version>1.8</java.version>
