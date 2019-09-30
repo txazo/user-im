@@ -11,6 +11,6 @@
             <AppenderRef ref="Console"/>
         </Root>
 
-        <Logger name="org.txazo.im" level="debug"/>
+        <Logger name="org.txazo.im.server" level="debug"/>
     </Loggers>
 </Configuration>

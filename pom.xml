@@ -16,6 +16,7 @@
         <module>im-common</module>
         <module>im-server</module>
         <module>im-client</module>
+        <module>im-route</module>
     </modules>
 
 </project>
