@@ -1,13 +1,19 @@
 package org.txazo.im.client.netty;
 
 import io.netty.bootstrap.Bootstrap;
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.ByteBufAllocator;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
+import io.netty.handler.logging.LoggingHandler;
+import io.netty.util.concurrent.GenericFutureListener;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.annotation.PostConstruct;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 @Slf4j
@@ -18,6 +24,10 @@ public class NettyClient {
     private int reconnectTimes = 0;
     private int maxReconnectTimes = 10;
     private int reconnectInterval = 1;
+
+    private Channel channel;
+
+    private final ScheduledExecutorService executor = Executors.newScheduledThreadPool(2);
 
     @PostConstruct
     private void init() {
@@ -37,6 +47,7 @@ public class NettyClient {
 
                     @Override
                     protected void initChannel(SocketChannel ch) throws Exception {
+                        ch.pipeline().addLast(new LoggingHandler());
                         ch.pipeline().addLast(new ChannelInboundHandlerAdapter() {
 
                             @Override
@@ -59,19 +70,29 @@ public class NettyClient {
 
                 });
 
-        bootstrap.connect("127.0.0.1", 8000).addListener(new ChannelFutureListener() {
+        ChannelFuture channelFuture = bootstrap.connect("127.0.0.1", 10030).addListener(new GenericFutureListener<ChannelFuture>() {
 
             @Override
             public void operationComplete(ChannelFuture future) throws Exception {
-                if (!future.isSuccess()) {
-                    log.error("服务器连接失败");
-                    future.channel().pipeline().fireChannelInactive();
+                if (future.isSuccess()) {
+                    log.debug("IMClient connected to IMServer(127.0.0.1:9901)");
                 } else {
-                    log.error("服务器连接成功");
+                    log.debug("IMClient connect to IMServer(127.0.0.1:9901) failed");
+                    future.channel().pipeline().fireChannelInactive();
                 }
             }
 
         });
+
+        try {
+            channel = channelFuture.sync().channel();
+        } catch (Exception e) {
+            log.error("sync error", e);
+        }
+
+        ByteBuf byteBuf = ByteBufAllocator.DEFAULT.directBuffer();
+        byteBuf.writeBytes("HelloWorld".getBytes());
+        channel.writeAndFlush(byteBuf);
     }
 
 }

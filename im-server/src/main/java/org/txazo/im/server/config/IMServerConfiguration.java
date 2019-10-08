@@ -3,7 +3,7 @@ package org.txazo.im.server.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.txazo.im.common.registry.IMServerRegistry;
+import org.txazo.im.common.zk.IMServerRegistry;
 import org.txazo.im.server.netty.IMServer;
 import org.txazo.im.server.netty.context.ChannelContextManager;
 

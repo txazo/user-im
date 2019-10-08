@@ -7,12 +7,13 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.ServerSocketChannel;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
-import io.netty.util.AttributeKey;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.txazo.im.common.registry.IMServerRegistry;
+import org.txazo.im.common.netty.IMThreadFactory;
+import org.txazo.im.common.zk.IMServerRegistry;
 import org.txazo.im.server.config.IMServerConfig;
 import org.txazo.im.server.netty.handler.IMServerRegisterHandler;
+import org.txazo.im.server.netty.handler.LoggerHandler;
 
 import javax.annotation.PostConstruct;
 
@@ -27,8 +28,8 @@ public class IMServer {
 
     @PostConstruct
     private void init() {
-        NioEventLoopGroup bossGroup = new NioEventLoopGroup(serverConfig.getBoosGroupThreads());
-        NioEventLoopGroup wokerGroup = new NioEventLoopGroup(serverConfig.getWorkerGroupThreads());
+        NioEventLoopGroup bossGroup = new NioEventLoopGroup(serverConfig.getBoosGroupThreads(), new IMThreadFactory("nio-boss-group"));
+        NioEventLoopGroup wokerGroup = new NioEventLoopGroup(serverConfig.getWorkerGroupThreads(), new IMThreadFactory("nio-worker-group"));
 
         ServerBootstrap serverBootstrap = new ServerBootstrap();
         serverBootstrap.group(bossGroup, wokerGroup)
@@ -38,7 +39,8 @@ public class IMServer {
 
                     @Override
                     protected void initChannel(ServerSocketChannel ch) throws Exception {
-                        ch.pipeline().addLast(new IMServerRegisterHandler(imServerRegistry));
+                        ch.pipeline().addLast(new LoggerHandler());
+                        ch.pipeline().addLast(new IMServerRegisterHandler(serverConfig, imServerRegistry));
                     }
 
                 })
@@ -48,7 +50,7 @@ public class IMServer {
 
                     @Override
                     protected void initChannel(SocketChannel ch) throws Exception {
-
+                        ch.pipeline().addLast(new LoggerHandler());
                     }
 
                 });
@@ -60,7 +62,6 @@ public class IMServer {
         log.debug("IMServer binding to port {}", port);
         serverBootstrap.bind(port).addListener(future -> {
             if (future.isSuccess()) {
-                serverBootstrap.attr(AttributeKey.newInstance(""), port);
                 log.debug("IMServer binded to port {}", port);
             } else {
                 log.debug("IMServer bind to port {} failed", port);

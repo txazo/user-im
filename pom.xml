@@ -12,11 +12,24 @@
 
     <url>https://github.com/txazo/user-im</url>
 
+    <properties>
+        <java.version>1.8</java.version>
+    </properties>
+
     <modules>
         <module>im-common</module>
         <module>im-server</module>
         <module>im-client</module>
         <module>im-route</module>
     </modules>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>
