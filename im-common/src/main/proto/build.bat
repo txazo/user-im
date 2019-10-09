@@ -1,1 +1,1 @@
-protoc --java_out=../java Login.proto
+protoc --java_out=../java Message.proto

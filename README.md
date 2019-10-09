@@ -41,3 +41,8 @@
     * IMServer: Docker、本机，3台机器
     * IMRoute: Docker、本机，1台机器，域名访问(im.txazo.com)
     * User: Docker、本机，1台机器，域名访问(user.txazo.com)
+
+* 消息发送回执
+    * 已发送: sent
+    * 已送达: delivered
+    * 已读: read

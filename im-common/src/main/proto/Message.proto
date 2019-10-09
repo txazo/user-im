@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package protocol;
+
+option java_package = "org.txazo.im.common.protocol";
+option java_outer_classname = "MessageBody";
+
+message AuthRequestMessage {
+  int32 userId = 1;
+  string token = 2;
+}
+
+message AckMessage {
+  int32 code = 1;
+  string message = 2;
+}
+
+message AuthAckMessage {
+  int32 userId = 1;
+}
