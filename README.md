@@ -11,7 +11,7 @@
 * 方案一
     * 时间戳 + 自增id + 回话类型 + 回话id -> 16进制
 
-### todo
+#### todo
 
 * Client: 失败重连、断线重连、连接超时切换
 * Server: 连接鉴权、非法连接踢出、心跳超时连接踢出
@@ -46,3 +46,11 @@
     * 已发送: sent
     * 已送达: delivered
     * 已读: read
+
+#### netty优化
+
+* handler复用
+* 三个线程池: boss、worker、business
+* 大数据拆分推送
+* netty高性能三大件: 线程模型、pipeline、bytebuf
+* bytebuf: 对象复用、引用计数、release

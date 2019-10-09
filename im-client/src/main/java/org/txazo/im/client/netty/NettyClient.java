@@ -1,17 +1,12 @@
 package org.txazo.im.client.netty;
 
 import io.netty.bootstrap.Bootstrap;
-import io.netty.buffer.ByteBuf;
-import io.netty.buffer.ByteBufAllocator;
 import io.netty.channel.*;
-import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
-import io.netty.handler.logging.LoggingHandler;
 import io.netty.util.concurrent.GenericFutureListener;
 import lombok.extern.slf4j.Slf4j;
 
-import javax.annotation.PostConstruct;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -21,78 +16,84 @@ public class NettyClient {
 
     private volatile boolean closed = false;
 
+    private String host;
+    private int port;
     private int reconnectTimes = 0;
-    private int maxReconnectTimes = 10;
-    private int reconnectInterval = 1;
+
+    private NettyClientConfig nettyClientConfig;
 
     private Channel channel;
 
     private final ScheduledExecutorService executor = Executors.newScheduledThreadPool(2);
 
-    @PostConstruct
-    private void init() {
-        connect();
+    public NettyClient(String host, int port, NettyClientConfig nettyClientConfig) {
+        this.host = host;
+        this.port = port;
+        this.nettyClientConfig = nettyClientConfig;
+
+        init();
     }
 
-    private void connect() {
-        NioEventLoopGroup wokerGroup = new NioEventLoopGroup();
+    private void init() {
+        connect(false);
+    }
+
+    private void connect(boolean reconnect) {
+        if (reconnect) {
+            log.debug("IMClient reconnecting to IMServer({}:{})", host, port);
+        }
 
         Bootstrap bootstrap = new Bootstrap();
-        bootstrap.group(wokerGroup)
+        bootstrap.group(nettyClientConfig.getWokerGroup())
                 .channel(NioSocketChannel.class)
                 .option(ChannelOption.TCP_NODELAY, true)
                 .option(ChannelOption.SO_KEEPALIVE, true)
-                .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 5000)
+                .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, nettyClientConfig.getConnectTimeoutMillis())
                 .handler(new ChannelInitializer<SocketChannel>() {
 
                     @Override
                     protected void initChannel(SocketChannel ch) throws Exception {
-                        ch.pipeline().addLast(new LoggingHandler());
-                        ch.pipeline().addLast(new ChannelInboundHandlerAdapter() {
+                        ch.pipeline()
+                                .addLast(nettyClientConfig.getBusinessGroup(), nettyClientConfig.getLoggingHandler())
+                                .addLast(nettyClientConfig.getBusinessGroup(), new ChannelInboundHandlerAdapter() {
 
-                            @Override
-                            public void channelActive(ChannelHandlerContext ctx) throws Exception {
-                                maxReconnectTimes = 0;
-                                super.channelActive(ctx);
-                            }
+                                    @Override
+                                    public void channelActive(ChannelHandlerContext ctx) throws Exception {
+                                        reconnectTimes = 0;
+                                        super.channelActive(ctx);
+                                    }
 
-                            @Override
-                            public void channelInactive(ChannelHandlerContext ctx) throws Exception {
-                                if (!closed && reconnectTimes < maxReconnectTimes) {
-                                    reconnectTimes++;
-                                    ctx.channel().eventLoop().schedule(() -> connect(), reconnectInterval * reconnectTimes, TimeUnit.SECONDS);
-                                }
-                                super.channelInactive(ctx);
-                            }
+                                    @Override
+                                    public void channelInactive(ChannelHandlerContext ctx) throws Exception {
+                                        if (!closed && reconnectTimes < nettyClientConfig.getMaxReconnectTimes()) {
+                                            reconnectTimes++;
+                                            ctx.channel().eventLoop().schedule(() -> connect(true),
+                                                    ((int) Math.pow(2, nettyClientConfig.getReconnectInterval())) * reconnectTimes, TimeUnit.SECONDS);
+                                        } else {
+                                            ctx.close();
+                                        }
+                                        super.channelInactive(ctx);
+                                    }
 
-                        });
+                                });
                     }
 
                 });
 
-        ChannelFuture channelFuture = bootstrap.connect("127.0.0.1", 10030).addListener(new GenericFutureListener<ChannelFuture>() {
+        bootstrap.connect(host, port).addListener(new GenericFutureListener<ChannelFuture>() {
 
             @Override
             public void operationComplete(ChannelFuture future) throws Exception {
                 if (future.isSuccess()) {
-                    log.debug("IMClient connected to IMServer(127.0.0.1:9901)");
+                    channel = future.channel();
+                    log.debug("IMClient connected to IMServer({}:{})", host, port);
                 } else {
-                    log.debug("IMClient connect to IMServer(127.0.0.1:9901) failed");
+                    log.debug("IMClient connect to IMServer({}:{}) failed", host, port);
                     future.channel().pipeline().fireChannelInactive();
                 }
             }
 
         });
-
-        try {
-            channel = channelFuture.sync().channel();
-        } catch (Exception e) {
-            log.error("sync error", e);
-        }
-
-        ByteBuf byteBuf = ByteBufAllocator.DEFAULT.directBuffer();
-        byteBuf.writeBytes("HelloWorld".getBytes());
-        channel.writeAndFlush(byteBuf);
     }
 
 }

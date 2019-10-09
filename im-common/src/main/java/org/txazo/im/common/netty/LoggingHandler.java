@@ -7,7 +7,7 @@ import java.net.SocketAddress;
 
 @Slf4j
 @ChannelHandler.Sharable
-public class LoggerHandler implements ChannelInboundHandler, ChannelOutboundHandler {
+public class LoggingHandler implements ChannelInboundHandler, ChannelOutboundHandler {
 
     @Override
     public void channelRegistered(ChannelHandlerContext ctx) throws Exception {
