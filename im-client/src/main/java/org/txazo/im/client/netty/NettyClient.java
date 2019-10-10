@@ -6,9 +6,8 @@ import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.util.concurrent.GenericFutureListener;
 import lombok.extern.slf4j.Slf4j;
+import org.txazo.im.common.netty.handler.IMLengthFieldBasedFrameDecoder;
 
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 @Slf4j
@@ -18,13 +17,12 @@ public class NettyClient {
 
     private String host;
     private int port;
+    // 重连次数
     private int reconnectTimes = 0;
 
     private NettyClientConfig nettyClientConfig;
 
     private Channel channel;
-
-    private final ScheduledExecutorService executor = Executors.newScheduledThreadPool(2);
 
     public NettyClient(String host, int port, NettyClientConfig nettyClientConfig) {
         this.host = host;
@@ -70,12 +68,14 @@ public class NettyClient {
                                             ctx.channel().eventLoop().schedule(() -> connect(true),
                                                     ((int) Math.pow(2, nettyClientConfig.getReconnectInterval())) * reconnectTimes, TimeUnit.SECONDS);
                                         } else {
+                                            log.debug("IMClient closed after reconnect failed");
                                             ctx.close();
                                         }
                                         super.channelInactive(ctx);
                                     }
 
-                                });
+                                })
+                                .addLast(new IMLengthFieldBasedFrameDecoder());
                     }
 
                 });

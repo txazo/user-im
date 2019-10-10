@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import org.txazo.im.common.zk.IMServerRegistry;
 import org.txazo.im.server.netty.IMServer;
 import org.txazo.im.server.netty.context.ChannelContextManager;
+import org.txazo.im.server.netty.handler.IMServerRegisterHandler;
 
 @Configuration
 public class IMServerConfiguration {
@@ -26,6 +27,11 @@ public class IMServerConfiguration {
     @Bean
     public IMServerRegistry imServerRegistry() {
         return new IMServerRegistry(imServerConfig.getZkServers());
+    }
+
+    @Bean
+    public IMServerRegisterHandler imServerRegisterHandler() {
+        return new IMServerRegisterHandler(imServerRegistry());
     }
 
 }

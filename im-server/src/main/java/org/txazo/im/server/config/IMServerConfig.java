@@ -14,6 +14,9 @@ public class IMServerConfig {
     @Value("${im.server.socket.backlog:1024}")
     private Integer backlog;
 
+    @Value("${im.server.idle.max-times:3}")
+    private Integer idleMaxTimes;
+
     @Value("${im.server.netty.boosGroup.threads:1}")
     private Integer boosGroupThreads;
 

@@ -5,16 +5,19 @@ package protocol;
 option java_package = "org.txazo.im.common.protocol";
 option java_outer_classname = "MessageBody";
 
-message AuthRequestMessage {
-  int32 userId = 1;
-  string token = 2;
+enum CommandType {
+  HeartbeatRequest = 0;
+  HeartbeatResponse = 1;
 }
 
-message AckMessage {
-  int32 code = 1;
-  string message = 2;
+message AbstractPacket {
+  int8 version;
 }
 
-message AuthAckMessage {
-  int32 userId = 1;
+message HeartbeatRequestPacket {
+  CommandType command = 1;
+}
+
+message HeartbeatResponsePacket {
+  CommandType command = 1;
 }

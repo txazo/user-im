@@ -14,49 +14,146 @@ public final class MessageBody {
     registerAllExtensions(
         (com.google.protobuf.ExtensionRegistryLite) registry);
   }
-  public interface AuthRequestMessageOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:protocol.AuthRequestMessage)
+  /**
+   * Protobuf enum {@code protocol.CommandType}
+   */
+  public enum CommandType
+      implements com.google.protobuf.ProtocolMessageEnum {
+    /**
+     * <code>HeartbeatRequest = 0;</code>
+     */
+    HeartbeatRequest(0),
+    /**
+     * <code>HeartbeatResponse = 1;</code>
+     */
+    HeartbeatResponse(1),
+    UNRECOGNIZED(-1),
+    ;
+
+    /**
+     * <code>HeartbeatRequest = 0;</code>
+     */
+    public static final int HeartbeatRequest_VALUE = 0;
+    /**
+     * <code>HeartbeatResponse = 1;</code>
+     */
+    public static final int HeartbeatResponse_VALUE = 1;
+
+
+    public final int getNumber() {
+      if (this == UNRECOGNIZED) {
+        throw new java.lang.IllegalArgumentException(
+            "Can't get the number of an unknown enum value.");
+      }
+      return value;
+    }
+
+    /**
+     * @param value The numeric wire value of the corresponding enum entry.
+     * @return The enum associated with the given numeric wire value.
+     * @deprecated Use {@link #forNumber(int)} instead.
+     */
+    @java.lang.Deprecated
+    public static CommandType valueOf(int value) {
+      return forNumber(value);
+    }
+
+    /**
+     * @param value The numeric wire value of the corresponding enum entry.
+     * @return The enum associated with the given numeric wire value.
+     */
+    public static CommandType forNumber(int value) {
+      switch (value) {
+        case 0: return HeartbeatRequest;
+        case 1: return HeartbeatResponse;
+        default: return null;
+      }
+    }
+
+    public static com.google.protobuf.Internal.EnumLiteMap<CommandType>
+        internalGetValueMap() {
+      return internalValueMap;
+    }
+    private static final com.google.protobuf.Internal.EnumLiteMap<
+        CommandType> internalValueMap =
+          new com.google.protobuf.Internal.EnumLiteMap<CommandType>() {
+            public CommandType findValueByNumber(int number) {
+              return CommandType.forNumber(number);
+            }
+          };
+
+    public final com.google.protobuf.Descriptors.EnumValueDescriptor
+        getValueDescriptor() {
+      return getDescriptor().getValues().get(ordinal());
+    }
+    public final com.google.protobuf.Descriptors.EnumDescriptor
+        getDescriptorForType() {
+      return getDescriptor();
+    }
+    public static final com.google.protobuf.Descriptors.EnumDescriptor
+        getDescriptor() {
+      return org.txazo.im.common.protocol.MessageBody.getDescriptor().getEnumTypes().get(0);
+    }
+
+    private static final CommandType[] VALUES = values();
+
+    public static CommandType valueOf(
+        com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
+      if (desc.getType() != getDescriptor()) {
+        throw new java.lang.IllegalArgumentException(
+          "EnumValueDescriptor is not for this type.");
+      }
+      if (desc.getIndex() == -1) {
+        return UNRECOGNIZED;
+      }
+      return VALUES[desc.getIndex()];
+    }
+
+    private final int value;
+
+    private CommandType(int value) {
+      this.value = value;
+    }
+
+    // @@protoc_insertion_point(enum_scope:protocol.CommandType)
+  }
+
+  public interface HeartbeatRequestPacketOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:protocol.HeartbeatRequestPacket)
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>int32 userId = 1;</code>
-     * @return The userId.
+     * <code>.protocol.CommandType command = 1;</code>
+     * @return The enum numeric value on the wire for command.
      */
-    int getUserId();
-
+    int getCommandValue();
     /**
-     * <code>string token = 2;</code>
-     * @return The token.
+     * <code>.protocol.CommandType command = 1;</code>
+     * @return The command.
      */
-    java.lang.String getToken();
-    /**
-     * <code>string token = 2;</code>
-     * @return The bytes for token.
-     */
-    com.google.protobuf.ByteString
-        getTokenBytes();
+    org.txazo.im.common.protocol.MessageBody.CommandType getCommand();
   }
   /**
-   * Protobuf type {@code protocol.AuthRequestMessage}
+   * Protobuf type {@code protocol.HeartbeatRequestPacket}
    */
-  public  static final class AuthRequestMessage extends
+  public  static final class HeartbeatRequestPacket extends
       com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:protocol.AuthRequestMessage)
-      AuthRequestMessageOrBuilder {
+      // @@protoc_insertion_point(message_implements:protocol.HeartbeatRequestPacket)
+      HeartbeatRequestPacketOrBuilder {
   private static final long serialVersionUID = 0L;
-    // Use AuthRequestMessage.newBuilder() to construct.
-    private AuthRequestMessage(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+    // Use HeartbeatRequestPacket.newBuilder() to construct.
+    private HeartbeatRequestPacket(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
-    private AuthRequestMessage() {
-      token_ = "";
+    private HeartbeatRequestPacket() {
+      command_ = 0;
     }
 
     @java.lang.Override
     @SuppressWarnings({"unused"})
     protected java.lang.Object newInstance(
         UnusedPrivateParameter unused) {
-      return new AuthRequestMessage();
+      return new HeartbeatRequestPacket();
     }
 
     @java.lang.Override
@@ -64,7 +161,7 @@ public final class MessageBody {
     getUnknownFields() {
       return this.unknownFields;
     }
-    private AuthRequestMessage(
+    private HeartbeatRequestPacket(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -83,14 +180,9 @@ public final class MessageBody {
               done = true;
               break;
             case 8: {
+              int rawValue = input.readEnum();
 
-              userId_ = input.readInt32();
-              break;
-            }
-            case 18: {
-              java.lang.String s = input.readStringRequireUtf8();
-
-              token_ = s;
+              command_ = rawValue;
               break;
             }
             default: {
@@ -114,61 +206,34 @@ public final class MessageBody {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return org.txazo.im.common.protocol.MessageBody.internal_static_protocol_AuthRequestMessage_descriptor;
+      return org.txazo.im.common.protocol.MessageBody.internal_static_protocol_HeartbeatRequestPacket_descriptor;
     }
 
     @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return org.txazo.im.common.protocol.MessageBody.internal_static_protocol_AuthRequestMessage_fieldAccessorTable
+      return org.txazo.im.common.protocol.MessageBody.internal_static_protocol_HeartbeatRequestPacket_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              org.txazo.im.common.protocol.MessageBody.AuthRequestMessage.class, org.txazo.im.common.protocol.MessageBody.AuthRequestMessage.Builder.class);
+              org.txazo.im.common.protocol.MessageBody.HeartbeatRequestPacket.class, org.txazo.im.common.protocol.MessageBody.HeartbeatRequestPacket.Builder.class);
     }
 
-    public static final int USERID_FIELD_NUMBER = 1;
-    private int userId_;
+    public static final int COMMAND_FIELD_NUMBER = 1;
+    private int command_;
     /**
-     * <code>int32 userId = 1;</code>
-     * @return The userId.
+     * <code>.protocol.CommandType command = 1;</code>
+     * @return The enum numeric value on the wire for command.
      */
-    public int getUserId() {
-      return userId_;
-    }
-
-    public static final int TOKEN_FIELD_NUMBER = 2;
-    private volatile java.lang.Object token_;
-    /**
-     * <code>string token = 2;</code>
-     * @return The token.
-     */
-    public java.lang.String getToken() {
-      java.lang.Object ref = token_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        token_ = s;
-        return s;
-      }
+    public int getCommandValue() {
+      return command_;
     }
     /**
-     * <code>string token = 2;</code>
-     * @return The bytes for token.
+     * <code>.protocol.CommandType command = 1;</code>
+     * @return The command.
      */
-    public com.google.protobuf.ByteString
-        getTokenBytes() {
-      java.lang.Object ref = token_;
-      if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        token_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
+    public org.txazo.im.common.protocol.MessageBody.CommandType getCommand() {
+      @SuppressWarnings("deprecation")
+      org.txazo.im.common.protocol.MessageBody.CommandType result = org.txazo.im.common.protocol.MessageBody.CommandType.valueOf(command_);
+      return result == null ? org.txazo.im.common.protocol.MessageBody.CommandType.UNRECOGNIZED : result;
     }
 
     private byte memoizedIsInitialized = -1;
@@ -185,11 +250,8 @@ public final class MessageBody {
     @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (userId_ != 0) {
-        output.writeInt32(1, userId_);
-      }
-      if (!getTokenBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, token_);
+      if (command_ != org.txazo.im.common.protocol.MessageBody.CommandType.HeartbeatRequest.getNumber()) {
+        output.writeEnum(1, command_);
       }
       unknownFields.writeTo(output);
     }
@@ -200,12 +262,9 @@ public final class MessageBody {
       if (size != -1) return size;
 
       size = 0;
-      if (userId_ != 0) {
+      if (command_ != org.txazo.im.common.protocol.MessageBody.CommandType.HeartbeatRequest.getNumber()) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(1, userId_);
-      }
-      if (!getTokenBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, token_);
+          .computeEnumSize(1, command_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -217,15 +276,12 @@ public final class MessageBody {
       if (obj == this) {
        return true;
       }
-      if (!(obj instanceof org.txazo.im.common.protocol.MessageBody.AuthRequestMessage)) {
+      if (!(obj instanceof org.txazo.im.common.protocol.MessageBody.HeartbeatRequestPacket)) {
         return super.equals(obj);
       }
-      org.txazo.im.common.protocol.MessageBody.AuthRequestMessage other = (org.txazo.im.common.protocol.MessageBody.AuthRequestMessage) obj;
+      org.txazo.im.common.protocol.MessageBody.HeartbeatRequestPacket other = (org.txazo.im.common.protocol.MessageBody.HeartbeatRequestPacket) obj;
 
-      if (getUserId()
-          != other.getUserId()) return false;
-      if (!getToken()
-          .equals(other.getToken())) return false;
+      if (command_ != other.command_) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -237,78 +293,76 @@ public final class MessageBody {
       }
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
-      hash = (37 * hash) + USERID_FIELD_NUMBER;
-      hash = (53 * hash) + getUserId();
-      hash = (37 * hash) + TOKEN_FIELD_NUMBER;
-      hash = (53 * hash) + getToken().hashCode();
+      hash = (37 * hash) + COMMAND_FIELD_NUMBER;
+      hash = (53 * hash) + command_;
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
     }
 
-    public static org.txazo.im.common.protocol.MessageBody.AuthRequestMessage parseFrom(
+    public static org.txazo.im.common.protocol.MessageBody.HeartbeatRequestPacket parseFrom(
         java.nio.ByteBuffer data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static org.txazo.im.common.protocol.MessageBody.AuthRequestMessage parseFrom(
+    public static org.txazo.im.common.protocol.MessageBody.HeartbeatRequestPacket parseFrom(
         java.nio.ByteBuffer data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static org.txazo.im.common.protocol.MessageBody.AuthRequestMessage parseFrom(
+    public static org.txazo.im.common.protocol.MessageBody.HeartbeatRequestPacket parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static org.txazo.im.common.protocol.MessageBody.AuthRequestMessage parseFrom(
+    public static org.txazo.im.common.protocol.MessageBody.HeartbeatRequestPacket parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static org.txazo.im.common.protocol.MessageBody.AuthRequestMessage parseFrom(byte[] data)
+    public static org.txazo.im.common.protocol.MessageBody.HeartbeatRequestPacket parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static org.txazo.im.common.protocol.MessageBody.AuthRequestMessage parseFrom(
+    public static org.txazo.im.common.protocol.MessageBody.HeartbeatRequestPacket parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static org.txazo.im.common.protocol.MessageBody.AuthRequestMessage parseFrom(java.io.InputStream input)
+    public static org.txazo.im.common.protocol.MessageBody.HeartbeatRequestPacket parseFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static org.txazo.im.common.protocol.MessageBody.AuthRequestMessage parseFrom(
+    public static org.txazo.im.common.protocol.MessageBody.HeartbeatRequestPacket parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
-    public static org.txazo.im.common.protocol.MessageBody.AuthRequestMessage parseDelimitedFrom(java.io.InputStream input)
+    public static org.txazo.im.common.protocol.MessageBody.HeartbeatRequestPacket parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input);
     }
-    public static org.txazo.im.common.protocol.MessageBody.AuthRequestMessage parseDelimitedFrom(
+    public static org.txazo.im.common.protocol.MessageBody.HeartbeatRequestPacket parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
-    public static org.txazo.im.common.protocol.MessageBody.AuthRequestMessage parseFrom(
+    public static org.txazo.im.common.protocol.MessageBody.HeartbeatRequestPacket parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static org.txazo.im.common.protocol.MessageBody.AuthRequestMessage parseFrom(
+    public static org.txazo.im.common.protocol.MessageBody.HeartbeatRequestPacket parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
@@ -321,7 +375,7 @@ public final class MessageBody {
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
     }
-    public static Builder newBuilder(org.txazo.im.common.protocol.MessageBody.AuthRequestMessage prototype) {
+    public static Builder newBuilder(org.txazo.im.common.protocol.MessageBody.HeartbeatRequestPacket prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
     @java.lang.Override
@@ -337,26 +391,26 @@ public final class MessageBody {
       return builder;
     }
     /**
-     * Protobuf type {@code protocol.AuthRequestMessage}
+     * Protobuf type {@code protocol.HeartbeatRequestPacket}
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:protocol.AuthRequestMessage)
-        org.txazo.im.common.protocol.MessageBody.AuthRequestMessageOrBuilder {
+        // @@protoc_insertion_point(builder_implements:protocol.HeartbeatRequestPacket)
+        org.txazo.im.common.protocol.MessageBody.HeartbeatRequestPacketOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return org.txazo.im.common.protocol.MessageBody.internal_static_protocol_AuthRequestMessage_descriptor;
+        return org.txazo.im.common.protocol.MessageBody.internal_static_protocol_HeartbeatRequestPacket_descriptor;
       }
 
       @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return org.txazo.im.common.protocol.MessageBody.internal_static_protocol_AuthRequestMessage_fieldAccessorTable
+        return org.txazo.im.common.protocol.MessageBody.internal_static_protocol_HeartbeatRequestPacket_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                org.txazo.im.common.protocol.MessageBody.AuthRequestMessage.class, org.txazo.im.common.protocol.MessageBody.AuthRequestMessage.Builder.class);
+                org.txazo.im.common.protocol.MessageBody.HeartbeatRequestPacket.class, org.txazo.im.common.protocol.MessageBody.HeartbeatRequestPacket.Builder.class);
       }
 
-      // Construct using org.txazo.im.common.protocol.MessageBody.AuthRequestMessage.newBuilder()
+      // Construct using org.txazo.im.common.protocol.MessageBody.HeartbeatRequestPacket.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -374,9 +428,7 @@ public final class MessageBody {
       @java.lang.Override
       public Builder clear() {
         super.clear();
-        userId_ = 0;
-
-        token_ = "";
+        command_ = 0;
 
         return this;
       }
@@ -384,17 +436,17 @@ public final class MessageBody {
       @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return org.txazo.im.common.protocol.MessageBody.internal_static_protocol_AuthRequestMessage_descriptor;
+        return org.txazo.im.common.protocol.MessageBody.internal_static_protocol_HeartbeatRequestPacket_descriptor;
       }
 
       @java.lang.Override
-      public org.txazo.im.common.protocol.MessageBody.AuthRequestMessage getDefaultInstanceForType() {
-        return org.txazo.im.common.protocol.MessageBody.AuthRequestMessage.getDefaultInstance();
+      public org.txazo.im.common.protocol.MessageBody.HeartbeatRequestPacket getDefaultInstanceForType() {
+        return org.txazo.im.common.protocol.MessageBody.HeartbeatRequestPacket.getDefaultInstance();
       }
 
       @java.lang.Override
-      public org.txazo.im.common.protocol.MessageBody.AuthRequestMessage build() {
-        org.txazo.im.common.protocol.MessageBody.AuthRequestMessage result = buildPartial();
+      public org.txazo.im.common.protocol.MessageBody.HeartbeatRequestPacket build() {
+        org.txazo.im.common.protocol.MessageBody.HeartbeatRequestPacket result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
@@ -402,10 +454,9 @@ public final class MessageBody {
       }
 
       @java.lang.Override
-      public org.txazo.im.common.protocol.MessageBody.AuthRequestMessage buildPartial() {
-        org.txazo.im.common.protocol.MessageBody.AuthRequestMessage result = new org.txazo.im.common.protocol.MessageBody.AuthRequestMessage(this);
-        result.userId_ = userId_;
-        result.token_ = token_;
+      public org.txazo.im.common.protocol.MessageBody.HeartbeatRequestPacket buildPartial() {
+        org.txazo.im.common.protocol.MessageBody.HeartbeatRequestPacket result = new org.txazo.im.common.protocol.MessageBody.HeartbeatRequestPacket(this);
+        result.command_ = command_;
         onBuilt();
         return result;
       }
@@ -444,22 +495,18 @@ public final class MessageBody {
       }
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof org.txazo.im.common.protocol.MessageBody.AuthRequestMessage) {
-          return mergeFrom((org.txazo.im.common.protocol.MessageBody.AuthRequestMessage)other);
+        if (other instanceof org.txazo.im.common.protocol.MessageBody.HeartbeatRequestPacket) {
+          return mergeFrom((org.txazo.im.common.protocol.MessageBody.HeartbeatRequestPacket)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(org.txazo.im.common.protocol.MessageBody.AuthRequestMessage other) {
-        if (other == org.txazo.im.common.protocol.MessageBody.AuthRequestMessage.getDefaultInstance()) return this;
-        if (other.getUserId() != 0) {
-          setUserId(other.getUserId());
-        }
-        if (!other.getToken().isEmpty()) {
-          token_ = other.token_;
-          onChanged();
+      public Builder mergeFrom(org.txazo.im.common.protocol.MessageBody.HeartbeatRequestPacket other) {
+        if (other == org.txazo.im.common.protocol.MessageBody.HeartbeatRequestPacket.getDefaultInstance()) return this;
+        if (other.command_ != 0) {
+          setCommandValue(other.getCommandValue());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -476,11 +523,11 @@ public final class MessageBody {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        org.txazo.im.common.protocol.MessageBody.AuthRequestMessage parsedMessage = null;
+        org.txazo.im.common.protocol.MessageBody.HeartbeatRequestPacket parsedMessage = null;
         try {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (org.txazo.im.common.protocol.MessageBody.AuthRequestMessage) e.getUnfinishedMessage();
+          parsedMessage = (org.txazo.im.common.protocol.MessageBody.HeartbeatRequestPacket) e.getUnfinishedMessage();
           throw e.unwrapIOException();
         } finally {
           if (parsedMessage != null) {
@@ -490,108 +537,54 @@ public final class MessageBody {
         return this;
       }
 
-      private int userId_ ;
+      private int command_ = 0;
       /**
-       * <code>int32 userId = 1;</code>
-       * @return The userId.
+       * <code>.protocol.CommandType command = 1;</code>
+       * @return The enum numeric value on the wire for command.
        */
-      public int getUserId() {
-        return userId_;
+      public int getCommandValue() {
+        return command_;
       }
       /**
-       * <code>int32 userId = 1;</code>
-       * @param value The userId to set.
+       * <code>.protocol.CommandType command = 1;</code>
+       * @param value The enum numeric value on the wire for command to set.
        * @return This builder for chaining.
        */
-      public Builder setUserId(int value) {
-        
-        userId_ = value;
+      public Builder setCommandValue(int value) {
+        command_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>int32 userId = 1;</code>
+       * <code>.protocol.CommandType command = 1;</code>
+       * @return The command.
+       */
+      public org.txazo.im.common.protocol.MessageBody.CommandType getCommand() {
+        @SuppressWarnings("deprecation")
+        org.txazo.im.common.protocol.MessageBody.CommandType result = org.txazo.im.common.protocol.MessageBody.CommandType.valueOf(command_);
+        return result == null ? org.txazo.im.common.protocol.MessageBody.CommandType.UNRECOGNIZED : result;
+      }
+      /**
+       * <code>.protocol.CommandType command = 1;</code>
+       * @param value The command to set.
        * @return This builder for chaining.
        */
-      public Builder clearUserId() {
-        
-        userId_ = 0;
-        onChanged();
-        return this;
-      }
-
-      private java.lang.Object token_ = "";
-      /**
-       * <code>string token = 2;</code>
-       * @return The token.
-       */
-      public java.lang.String getToken() {
-        java.lang.Object ref = token_;
-        if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          token_ = s;
-          return s;
-        } else {
-          return (java.lang.String) ref;
-        }
-      }
-      /**
-       * <code>string token = 2;</code>
-       * @return The bytes for token.
-       */
-      public com.google.protobuf.ByteString
-          getTokenBytes() {
-        java.lang.Object ref = token_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          token_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-      /**
-       * <code>string token = 2;</code>
-       * @param value The token to set.
-       * @return This builder for chaining.
-       */
-      public Builder setToken(
-          java.lang.String value) {
+      public Builder setCommand(org.txazo.im.common.protocol.MessageBody.CommandType value) {
         if (value == null) {
-    throw new NullPointerException();
-  }
-  
-        token_ = value;
+          throw new NullPointerException();
+        }
+        
+        command_ = value.getNumber();
         onChanged();
         return this;
       }
       /**
-       * <code>string token = 2;</code>
+       * <code>.protocol.CommandType command = 1;</code>
        * @return This builder for chaining.
        */
-      public Builder clearToken() {
+      public Builder clearCommand() {
         
-        token_ = getDefaultInstance().getToken();
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>string token = 2;</code>
-       * @param value The bytes for token to set.
-       * @return This builder for chaining.
-       */
-      public Builder setTokenBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
-        
-        token_ = value;
+        command_ = 0;
         onChanged();
         return this;
       }
@@ -608,89 +601,82 @@ public final class MessageBody {
       }
 
 
-      // @@protoc_insertion_point(builder_scope:protocol.AuthRequestMessage)
+      // @@protoc_insertion_point(builder_scope:protocol.HeartbeatRequestPacket)
     }
 
-    // @@protoc_insertion_point(class_scope:protocol.AuthRequestMessage)
-    private static final org.txazo.im.common.protocol.MessageBody.AuthRequestMessage DEFAULT_INSTANCE;
+    // @@protoc_insertion_point(class_scope:protocol.HeartbeatRequestPacket)
+    private static final org.txazo.im.common.protocol.MessageBody.HeartbeatRequestPacket DEFAULT_INSTANCE;
     static {
-      DEFAULT_INSTANCE = new org.txazo.im.common.protocol.MessageBody.AuthRequestMessage();
+      DEFAULT_INSTANCE = new org.txazo.im.common.protocol.MessageBody.HeartbeatRequestPacket();
     }
 
-    public static org.txazo.im.common.protocol.MessageBody.AuthRequestMessage getDefaultInstance() {
+    public static org.txazo.im.common.protocol.MessageBody.HeartbeatRequestPacket getDefaultInstance() {
       return DEFAULT_INSTANCE;
     }
 
-    private static final com.google.protobuf.Parser<AuthRequestMessage>
-        PARSER = new com.google.protobuf.AbstractParser<AuthRequestMessage>() {
+    private static final com.google.protobuf.Parser<HeartbeatRequestPacket>
+        PARSER = new com.google.protobuf.AbstractParser<HeartbeatRequestPacket>() {
       @java.lang.Override
-      public AuthRequestMessage parsePartialFrom(
+      public HeartbeatRequestPacket parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-        return new AuthRequestMessage(input, extensionRegistry);
+        return new HeartbeatRequestPacket(input, extensionRegistry);
       }
     };
 
-    public static com.google.protobuf.Parser<AuthRequestMessage> parser() {
+    public static com.google.protobuf.Parser<HeartbeatRequestPacket> parser() {
       return PARSER;
     }
 
     @java.lang.Override
-    public com.google.protobuf.Parser<AuthRequestMessage> getParserForType() {
+    public com.google.protobuf.Parser<HeartbeatRequestPacket> getParserForType() {
       return PARSER;
     }
 
     @java.lang.Override
-    public org.txazo.im.common.protocol.MessageBody.AuthRequestMessage getDefaultInstanceForType() {
+    public org.txazo.im.common.protocol.MessageBody.HeartbeatRequestPacket getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
   }
 
-  public interface AckMessageOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:protocol.AckMessage)
+  public interface HeartbeatResponsePacketOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:protocol.HeartbeatResponsePacket)
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>int32 code = 1;</code>
-     * @return The code.
+     * <code>.protocol.CommandType command = 1;</code>
+     * @return The enum numeric value on the wire for command.
      */
-    int getCode();
-
+    int getCommandValue();
     /**
-     * <code>string message = 2;</code>
-     * @return The message.
+     * <code>.protocol.CommandType command = 1;</code>
+     * @return The command.
      */
-    java.lang.String getMessage();
-    /**
-     * <code>string message = 2;</code>
-     * @return The bytes for message.
-     */
-    com.google.protobuf.ByteString
-        getMessageBytes();
+    org.txazo.im.common.protocol.MessageBody.CommandType getCommand();
   }
   /**
-   * Protobuf type {@code protocol.AckMessage}
+   * Protobuf type {@code protocol.HeartbeatResponsePacket}
    */
-  public  static final class AckMessage extends
+  public  static final class HeartbeatResponsePacket extends
       com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:protocol.AckMessage)
-      AckMessageOrBuilder {
+      // @@protoc_insertion_point(message_implements:protocol.HeartbeatResponsePacket)
+      HeartbeatResponsePacketOrBuilder {
   private static final long serialVersionUID = 0L;
-    // Use AckMessage.newBuilder() to construct.
-    private AckMessage(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+    // Use HeartbeatResponsePacket.newBuilder() to construct.
+    private HeartbeatResponsePacket(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
-    private AckMessage() {
-      message_ = "";
+    private HeartbeatResponsePacket() {
+      command_ = 0;
     }
 
     @java.lang.Override
     @SuppressWarnings({"unused"})
     protected java.lang.Object newInstance(
         UnusedPrivateParameter unused) {
-      return new AckMessage();
+      return new HeartbeatResponsePacket();
     }
 
     @java.lang.Override
@@ -698,7 +684,7 @@ public final class MessageBody {
     getUnknownFields() {
       return this.unknownFields;
     }
-    private AckMessage(
+    private HeartbeatResponsePacket(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -717,14 +703,9 @@ public final class MessageBody {
               done = true;
               break;
             case 8: {
+              int rawValue = input.readEnum();
 
-              code_ = input.readInt32();
-              break;
-            }
-            case 18: {
-              java.lang.String s = input.readStringRequireUtf8();
-
-              message_ = s;
+              command_ = rawValue;
               break;
             }
             default: {
@@ -748,61 +729,34 @@ public final class MessageBody {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return org.txazo.im.common.protocol.MessageBody.internal_static_protocol_AckMessage_descriptor;
+      return org.txazo.im.common.protocol.MessageBody.internal_static_protocol_HeartbeatResponsePacket_descriptor;
     }
 
     @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return org.txazo.im.common.protocol.MessageBody.internal_static_protocol_AckMessage_fieldAccessorTable
+      return org.txazo.im.common.protocol.MessageBody.internal_static_protocol_HeartbeatResponsePacket_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              org.txazo.im.common.protocol.MessageBody.AckMessage.class, org.txazo.im.common.protocol.MessageBody.AckMessage.Builder.class);
+              org.txazo.im.common.protocol.MessageBody.HeartbeatResponsePacket.class, org.txazo.im.common.protocol.MessageBody.HeartbeatResponsePacket.Builder.class);
     }
 
-    public static final int CODE_FIELD_NUMBER = 1;
-    private int code_;
+    public static final int COMMAND_FIELD_NUMBER = 1;
+    private int command_;
     /**
-     * <code>int32 code = 1;</code>
-     * @return The code.
+     * <code>.protocol.CommandType command = 1;</code>
+     * @return The enum numeric value on the wire for command.
      */
-    public int getCode() {
-      return code_;
-    }
-
-    public static final int MESSAGE_FIELD_NUMBER = 2;
-    private volatile java.lang.Object message_;
-    /**
-     * <code>string message = 2;</code>
-     * @return The message.
-     */
-    public java.lang.String getMessage() {
-      java.lang.Object ref = message_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        message_ = s;
-        return s;
-      }
+    public int getCommandValue() {
+      return command_;
     }
     /**
-     * <code>string message = 2;</code>
-     * @return The bytes for message.
+     * <code>.protocol.CommandType command = 1;</code>
+     * @return The command.
      */
-    public com.google.protobuf.ByteString
-        getMessageBytes() {
-      java.lang.Object ref = message_;
-      if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        message_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
+    public org.txazo.im.common.protocol.MessageBody.CommandType getCommand() {
+      @SuppressWarnings("deprecation")
+      org.txazo.im.common.protocol.MessageBody.CommandType result = org.txazo.im.common.protocol.MessageBody.CommandType.valueOf(command_);
+      return result == null ? org.txazo.im.common.protocol.MessageBody.CommandType.UNRECOGNIZED : result;
     }
 
     private byte memoizedIsInitialized = -1;
@@ -819,11 +773,8 @@ public final class MessageBody {
     @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (code_ != 0) {
-        output.writeInt32(1, code_);
-      }
-      if (!getMessageBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, message_);
+      if (command_ != org.txazo.im.common.protocol.MessageBody.CommandType.HeartbeatRequest.getNumber()) {
+        output.writeEnum(1, command_);
       }
       unknownFields.writeTo(output);
     }
@@ -834,12 +785,9 @@ public final class MessageBody {
       if (size != -1) return size;
 
       size = 0;
-      if (code_ != 0) {
+      if (command_ != org.txazo.im.common.protocol.MessageBody.CommandType.HeartbeatRequest.getNumber()) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(1, code_);
-      }
-      if (!getMessageBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, message_);
+          .computeEnumSize(1, command_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -851,15 +799,12 @@ public final class MessageBody {
       if (obj == this) {
        return true;
       }
-      if (!(obj instanceof org.txazo.im.common.protocol.MessageBody.AckMessage)) {
+      if (!(obj instanceof org.txazo.im.common.protocol.MessageBody.HeartbeatResponsePacket)) {
         return super.equals(obj);
       }
-      org.txazo.im.common.protocol.MessageBody.AckMessage other = (org.txazo.im.common.protocol.MessageBody.AckMessage) obj;
+      org.txazo.im.common.protocol.MessageBody.HeartbeatResponsePacket other = (org.txazo.im.common.protocol.MessageBody.HeartbeatResponsePacket) obj;
 
-      if (getCode()
-          != other.getCode()) return false;
-      if (!getMessage()
-          .equals(other.getMessage())) return false;
+      if (command_ != other.command_) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -871,78 +816,76 @@ public final class MessageBody {
       }
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
-      hash = (37 * hash) + CODE_FIELD_NUMBER;
-      hash = (53 * hash) + getCode();
-      hash = (37 * hash) + MESSAGE_FIELD_NUMBER;
-      hash = (53 * hash) + getMessage().hashCode();
+      hash = (37 * hash) + COMMAND_FIELD_NUMBER;
+      hash = (53 * hash) + command_;
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
     }
 
-    public static org.txazo.im.common.protocol.MessageBody.AckMessage parseFrom(
+    public static org.txazo.im.common.protocol.MessageBody.HeartbeatResponsePacket parseFrom(
         java.nio.ByteBuffer data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static org.txazo.im.common.protocol.MessageBody.AckMessage parseFrom(
+    public static org.txazo.im.common.protocol.MessageBody.HeartbeatResponsePacket parseFrom(
         java.nio.ByteBuffer data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static org.txazo.im.common.protocol.MessageBody.AckMessage parseFrom(
+    public static org.txazo.im.common.protocol.MessageBody.HeartbeatResponsePacket parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static org.txazo.im.common.protocol.MessageBody.AckMessage parseFrom(
+    public static org.txazo.im.common.protocol.MessageBody.HeartbeatResponsePacket parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static org.txazo.im.common.protocol.MessageBody.AckMessage parseFrom(byte[] data)
+    public static org.txazo.im.common.protocol.MessageBody.HeartbeatResponsePacket parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static org.txazo.im.common.protocol.MessageBody.AckMessage parseFrom(
+    public static org.txazo.im.common.protocol.MessageBody.HeartbeatResponsePacket parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static org.txazo.im.common.protocol.MessageBody.AckMessage parseFrom(java.io.InputStream input)
+    public static org.txazo.im.common.protocol.MessageBody.HeartbeatResponsePacket parseFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static org.txazo.im.common.protocol.MessageBody.AckMessage parseFrom(
+    public static org.txazo.im.common.protocol.MessageBody.HeartbeatResponsePacket parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
-    public static org.txazo.im.common.protocol.MessageBody.AckMessage parseDelimitedFrom(java.io.InputStream input)
+    public static org.txazo.im.common.protocol.MessageBody.HeartbeatResponsePacket parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input);
     }
-    public static org.txazo.im.common.protocol.MessageBody.AckMessage parseDelimitedFrom(
+    public static org.txazo.im.common.protocol.MessageBody.HeartbeatResponsePacket parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
-    public static org.txazo.im.common.protocol.MessageBody.AckMessage parseFrom(
+    public static org.txazo.im.common.protocol.MessageBody.HeartbeatResponsePacket parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static org.txazo.im.common.protocol.MessageBody.AckMessage parseFrom(
+    public static org.txazo.im.common.protocol.MessageBody.HeartbeatResponsePacket parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
@@ -955,7 +898,7 @@ public final class MessageBody {
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
     }
-    public static Builder newBuilder(org.txazo.im.common.protocol.MessageBody.AckMessage prototype) {
+    public static Builder newBuilder(org.txazo.im.common.protocol.MessageBody.HeartbeatResponsePacket prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
     @java.lang.Override
@@ -971,26 +914,26 @@ public final class MessageBody {
       return builder;
     }
     /**
-     * Protobuf type {@code protocol.AckMessage}
+     * Protobuf type {@code protocol.HeartbeatResponsePacket}
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:protocol.AckMessage)
-        org.txazo.im.common.protocol.MessageBody.AckMessageOrBuilder {
+        // @@protoc_insertion_point(builder_implements:protocol.HeartbeatResponsePacket)
+        org.txazo.im.common.protocol.MessageBody.HeartbeatResponsePacketOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return org.txazo.im.common.protocol.MessageBody.internal_static_protocol_AckMessage_descriptor;
+        return org.txazo.im.common.protocol.MessageBody.internal_static_protocol_HeartbeatResponsePacket_descriptor;
       }
 
       @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return org.txazo.im.common.protocol.MessageBody.internal_static_protocol_AckMessage_fieldAccessorTable
+        return org.txazo.im.common.protocol.MessageBody.internal_static_protocol_HeartbeatResponsePacket_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                org.txazo.im.common.protocol.MessageBody.AckMessage.class, org.txazo.im.common.protocol.MessageBody.AckMessage.Builder.class);
+                org.txazo.im.common.protocol.MessageBody.HeartbeatResponsePacket.class, org.txazo.im.common.protocol.MessageBody.HeartbeatResponsePacket.Builder.class);
       }
 
-      // Construct using org.txazo.im.common.protocol.MessageBody.AckMessage.newBuilder()
+      // Construct using org.txazo.im.common.protocol.MessageBody.HeartbeatResponsePacket.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -1008,9 +951,7 @@ public final class MessageBody {
       @java.lang.Override
       public Builder clear() {
         super.clear();
-        code_ = 0;
-
-        message_ = "";
+        command_ = 0;
 
         return this;
       }
@@ -1018,17 +959,17 @@ public final class MessageBody {
       @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return org.txazo.im.common.protocol.MessageBody.internal_static_protocol_AckMessage_descriptor;
+        return org.txazo.im.common.protocol.MessageBody.internal_static_protocol_HeartbeatResponsePacket_descriptor;
       }
 
       @java.lang.Override
-      public org.txazo.im.common.protocol.MessageBody.AckMessage getDefaultInstanceForType() {
-        return org.txazo.im.common.protocol.MessageBody.AckMessage.getDefaultInstance();
+      public org.txazo.im.common.protocol.MessageBody.HeartbeatResponsePacket getDefaultInstanceForType() {
+        return org.txazo.im.common.protocol.MessageBody.HeartbeatResponsePacket.getDefaultInstance();
       }
 
       @java.lang.Override
-      public org.txazo.im.common.protocol.MessageBody.AckMessage build() {
-        org.txazo.im.common.protocol.MessageBody.AckMessage result = buildPartial();
+      public org.txazo.im.common.protocol.MessageBody.HeartbeatResponsePacket build() {
+        org.txazo.im.common.protocol.MessageBody.HeartbeatResponsePacket result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
@@ -1036,10 +977,9 @@ public final class MessageBody {
       }
 
       @java.lang.Override
-      public org.txazo.im.common.protocol.MessageBody.AckMessage buildPartial() {
-        org.txazo.im.common.protocol.MessageBody.AckMessage result = new org.txazo.im.common.protocol.MessageBody.AckMessage(this);
-        result.code_ = code_;
-        result.message_ = message_;
+      public org.txazo.im.common.protocol.MessageBody.HeartbeatResponsePacket buildPartial() {
+        org.txazo.im.common.protocol.MessageBody.HeartbeatResponsePacket result = new org.txazo.im.common.protocol.MessageBody.HeartbeatResponsePacket(this);
+        result.command_ = command_;
         onBuilt();
         return result;
       }
@@ -1078,22 +1018,18 @@ public final class MessageBody {
       }
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof org.txazo.im.common.protocol.MessageBody.AckMessage) {
-          return mergeFrom((org.txazo.im.common.protocol.MessageBody.AckMessage)other);
+        if (other instanceof org.txazo.im.common.protocol.MessageBody.HeartbeatResponsePacket) {
+          return mergeFrom((org.txazo.im.common.protocol.MessageBody.HeartbeatResponsePacket)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(org.txazo.im.common.protocol.MessageBody.AckMessage other) {
-        if (other == org.txazo.im.common.protocol.MessageBody.AckMessage.getDefaultInstance()) return this;
-        if (other.getCode() != 0) {
-          setCode(other.getCode());
-        }
-        if (!other.getMessage().isEmpty()) {
-          message_ = other.message_;
-          onChanged();
+      public Builder mergeFrom(org.txazo.im.common.protocol.MessageBody.HeartbeatResponsePacket other) {
+        if (other == org.txazo.im.common.protocol.MessageBody.HeartbeatResponsePacket.getDefaultInstance()) return this;
+        if (other.command_ != 0) {
+          setCommandValue(other.getCommandValue());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -1110,11 +1046,11 @@ public final class MessageBody {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        org.txazo.im.common.protocol.MessageBody.AckMessage parsedMessage = null;
+        org.txazo.im.common.protocol.MessageBody.HeartbeatResponsePacket parsedMessage = null;
         try {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (org.txazo.im.common.protocol.MessageBody.AckMessage) e.getUnfinishedMessage();
+          parsedMessage = (org.txazo.im.common.protocol.MessageBody.HeartbeatResponsePacket) e.getUnfinishedMessage();
           throw e.unwrapIOException();
         } finally {
           if (parsedMessage != null) {
@@ -1124,108 +1060,54 @@ public final class MessageBody {
         return this;
       }
 
-      private int code_ ;
+      private int command_ = 0;
       /**
-       * <code>int32 code = 1;</code>
-       * @return The code.
+       * <code>.protocol.CommandType command = 1;</code>
+       * @return The enum numeric value on the wire for command.
        */
-      public int getCode() {
-        return code_;
+      public int getCommandValue() {
+        return command_;
       }
       /**
-       * <code>int32 code = 1;</code>
-       * @param value The code to set.
+       * <code>.protocol.CommandType command = 1;</code>
+       * @param value The enum numeric value on the wire for command to set.
        * @return This builder for chaining.
        */
-      public Builder setCode(int value) {
-        
-        code_ = value;
+      public Builder setCommandValue(int value) {
+        command_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>int32 code = 1;</code>
+       * <code>.protocol.CommandType command = 1;</code>
+       * @return The command.
+       */
+      public org.txazo.im.common.protocol.MessageBody.CommandType getCommand() {
+        @SuppressWarnings("deprecation")
+        org.txazo.im.common.protocol.MessageBody.CommandType result = org.txazo.im.common.protocol.MessageBody.CommandType.valueOf(command_);
+        return result == null ? org.txazo.im.common.protocol.MessageBody.CommandType.UNRECOGNIZED : result;
+      }
+      /**
+       * <code>.protocol.CommandType command = 1;</code>
+       * @param value The command to set.
        * @return This builder for chaining.
        */
-      public Builder clearCode() {
-        
-        code_ = 0;
-        onChanged();
-        return this;
-      }
-
-      private java.lang.Object message_ = "";
-      /**
-       * <code>string message = 2;</code>
-       * @return The message.
-       */
-      public java.lang.String getMessage() {
-        java.lang.Object ref = message_;
-        if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          message_ = s;
-          return s;
-        } else {
-          return (java.lang.String) ref;
-        }
-      }
-      /**
-       * <code>string message = 2;</code>
-       * @return The bytes for message.
-       */
-      public com.google.protobuf.ByteString
-          getMessageBytes() {
-        java.lang.Object ref = message_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          message_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-      /**
-       * <code>string message = 2;</code>
-       * @param value The message to set.
-       * @return This builder for chaining.
-       */
-      public Builder setMessage(
-          java.lang.String value) {
+      public Builder setCommand(org.txazo.im.common.protocol.MessageBody.CommandType value) {
         if (value == null) {
-    throw new NullPointerException();
-  }
-  
-        message_ = value;
+          throw new NullPointerException();
+        }
+        
+        command_ = value.getNumber();
         onChanged();
         return this;
       }
       /**
-       * <code>string message = 2;</code>
+       * <code>.protocol.CommandType command = 1;</code>
        * @return This builder for chaining.
        */
-      public Builder clearMessage() {
+      public Builder clearCommand() {
         
-        message_ = getDefaultInstance().getMessage();
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>string message = 2;</code>
-       * @param value The bytes for message to set.
-       * @return This builder for chaining.
-       */
-      public Builder setMessageBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
-        
-        message_ = value;
+        command_ = 0;
         onChanged();
         return this;
       }
@@ -1242,547 +1124,56 @@ public final class MessageBody {
       }
 
 
-      // @@protoc_insertion_point(builder_scope:protocol.AckMessage)
+      // @@protoc_insertion_point(builder_scope:protocol.HeartbeatResponsePacket)
     }
 
-    // @@protoc_insertion_point(class_scope:protocol.AckMessage)
-    private static final org.txazo.im.common.protocol.MessageBody.AckMessage DEFAULT_INSTANCE;
+    // @@protoc_insertion_point(class_scope:protocol.HeartbeatResponsePacket)
+    private static final org.txazo.im.common.protocol.MessageBody.HeartbeatResponsePacket DEFAULT_INSTANCE;
     static {
-      DEFAULT_INSTANCE = new org.txazo.im.common.protocol.MessageBody.AckMessage();
+      DEFAULT_INSTANCE = new org.txazo.im.common.protocol.MessageBody.HeartbeatResponsePacket();
     }
 
-    public static org.txazo.im.common.protocol.MessageBody.AckMessage getDefaultInstance() {
+    public static org.txazo.im.common.protocol.MessageBody.HeartbeatResponsePacket getDefaultInstance() {
       return DEFAULT_INSTANCE;
     }
 
-    private static final com.google.protobuf.Parser<AckMessage>
-        PARSER = new com.google.protobuf.AbstractParser<AckMessage>() {
+    private static final com.google.protobuf.Parser<HeartbeatResponsePacket>
+        PARSER = new com.google.protobuf.AbstractParser<HeartbeatResponsePacket>() {
       @java.lang.Override
-      public AckMessage parsePartialFrom(
+      public HeartbeatResponsePacket parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-        return new AckMessage(input, extensionRegistry);
+        return new HeartbeatResponsePacket(input, extensionRegistry);
       }
     };
 
-    public static com.google.protobuf.Parser<AckMessage> parser() {
+    public static com.google.protobuf.Parser<HeartbeatResponsePacket> parser() {
       return PARSER;
     }
 
     @java.lang.Override
-    public com.google.protobuf.Parser<AckMessage> getParserForType() {
+    public com.google.protobuf.Parser<HeartbeatResponsePacket> getParserForType() {
       return PARSER;
     }
 
     @java.lang.Override
-    public org.txazo.im.common.protocol.MessageBody.AckMessage getDefaultInstanceForType() {
-      return DEFAULT_INSTANCE;
-    }
-
-  }
-
-  public interface AuthAckMessageOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:protocol.AuthAckMessage)
-      com.google.protobuf.MessageOrBuilder {
-
-    /**
-     * <code>int32 userId = 1;</code>
-     * @return The userId.
-     */
-    int getUserId();
-  }
-  /**
-   * Protobuf type {@code protocol.AuthAckMessage}
-   */
-  public  static final class AuthAckMessage extends
-      com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:protocol.AuthAckMessage)
-      AuthAckMessageOrBuilder {
-  private static final long serialVersionUID = 0L;
-    // Use AuthAckMessage.newBuilder() to construct.
-    private AuthAckMessage(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
-      super(builder);
-    }
-    private AuthAckMessage() {
-    }
-
-    @java.lang.Override
-    @SuppressWarnings({"unused"})
-    protected java.lang.Object newInstance(
-        UnusedPrivateParameter unused) {
-      return new AuthAckMessage();
-    }
-
-    @java.lang.Override
-    public final com.google.protobuf.UnknownFieldSet
-    getUnknownFields() {
-      return this.unknownFields;
-    }
-    private AuthAckMessage(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      this();
-      if (extensionRegistry == null) {
-        throw new java.lang.NullPointerException();
-      }
-      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-          com.google.protobuf.UnknownFieldSet.newBuilder();
-      try {
-        boolean done = false;
-        while (!done) {
-          int tag = input.readTag();
-          switch (tag) {
-            case 0:
-              done = true;
-              break;
-            case 8: {
-
-              userId_ = input.readInt32();
-              break;
-            }
-            default: {
-              if (!parseUnknownField(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
-          }
-        }
-      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        throw e.setUnfinishedMessage(this);
-      } catch (java.io.IOException e) {
-        throw new com.google.protobuf.InvalidProtocolBufferException(
-            e).setUnfinishedMessage(this);
-      } finally {
-        this.unknownFields = unknownFields.build();
-        makeExtensionsImmutable();
-      }
-    }
-    public static final com.google.protobuf.Descriptors.Descriptor
-        getDescriptor() {
-      return org.txazo.im.common.protocol.MessageBody.internal_static_protocol_AuthAckMessage_descriptor;
-    }
-
-    @java.lang.Override
-    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-        internalGetFieldAccessorTable() {
-      return org.txazo.im.common.protocol.MessageBody.internal_static_protocol_AuthAckMessage_fieldAccessorTable
-          .ensureFieldAccessorsInitialized(
-              org.txazo.im.common.protocol.MessageBody.AuthAckMessage.class, org.txazo.im.common.protocol.MessageBody.AuthAckMessage.Builder.class);
-    }
-
-    public static final int USERID_FIELD_NUMBER = 1;
-    private int userId_;
-    /**
-     * <code>int32 userId = 1;</code>
-     * @return The userId.
-     */
-    public int getUserId() {
-      return userId_;
-    }
-
-    private byte memoizedIsInitialized = -1;
-    @java.lang.Override
-    public final boolean isInitialized() {
-      byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
-
-      memoizedIsInitialized = 1;
-      return true;
-    }
-
-    @java.lang.Override
-    public void writeTo(com.google.protobuf.CodedOutputStream output)
-                        throws java.io.IOException {
-      if (userId_ != 0) {
-        output.writeInt32(1, userId_);
-      }
-      unknownFields.writeTo(output);
-    }
-
-    @java.lang.Override
-    public int getSerializedSize() {
-      int size = memoizedSize;
-      if (size != -1) return size;
-
-      size = 0;
-      if (userId_ != 0) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(1, userId_);
-      }
-      size += unknownFields.getSerializedSize();
-      memoizedSize = size;
-      return size;
-    }
-
-    @java.lang.Override
-    public boolean equals(final java.lang.Object obj) {
-      if (obj == this) {
-       return true;
-      }
-      if (!(obj instanceof org.txazo.im.common.protocol.MessageBody.AuthAckMessage)) {
-        return super.equals(obj);
-      }
-      org.txazo.im.common.protocol.MessageBody.AuthAckMessage other = (org.txazo.im.common.protocol.MessageBody.AuthAckMessage) obj;
-
-      if (getUserId()
-          != other.getUserId()) return false;
-      if (!unknownFields.equals(other.unknownFields)) return false;
-      return true;
-    }
-
-    @java.lang.Override
-    public int hashCode() {
-      if (memoizedHashCode != 0) {
-        return memoizedHashCode;
-      }
-      int hash = 41;
-      hash = (19 * hash) + getDescriptor().hashCode();
-      hash = (37 * hash) + USERID_FIELD_NUMBER;
-      hash = (53 * hash) + getUserId();
-      hash = (29 * hash) + unknownFields.hashCode();
-      memoizedHashCode = hash;
-      return hash;
-    }
-
-    public static org.txazo.im.common.protocol.MessageBody.AuthAckMessage parseFrom(
-        java.nio.ByteBuffer data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static org.txazo.im.common.protocol.MessageBody.AuthAckMessage parseFrom(
-        java.nio.ByteBuffer data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static org.txazo.im.common.protocol.MessageBody.AuthAckMessage parseFrom(
-        com.google.protobuf.ByteString data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static org.txazo.im.common.protocol.MessageBody.AuthAckMessage parseFrom(
-        com.google.protobuf.ByteString data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static org.txazo.im.common.protocol.MessageBody.AuthAckMessage parseFrom(byte[] data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static org.txazo.im.common.protocol.MessageBody.AuthAckMessage parseFrom(
-        byte[] data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static org.txazo.im.common.protocol.MessageBody.AuthAckMessage parseFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input);
-    }
-    public static org.txazo.im.common.protocol.MessageBody.AuthAckMessage parseFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input, extensionRegistry);
-    }
-    public static org.txazo.im.common.protocol.MessageBody.AuthAckMessage parseDelimitedFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseDelimitedWithIOException(PARSER, input);
-    }
-    public static org.txazo.im.common.protocol.MessageBody.AuthAckMessage parseDelimitedFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
-    }
-    public static org.txazo.im.common.protocol.MessageBody.AuthAckMessage parseFrom(
-        com.google.protobuf.CodedInputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input);
-    }
-    public static org.txazo.im.common.protocol.MessageBody.AuthAckMessage parseFrom(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input, extensionRegistry);
-    }
-
-    @java.lang.Override
-    public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder() {
-      return DEFAULT_INSTANCE.toBuilder();
-    }
-    public static Builder newBuilder(org.txazo.im.common.protocol.MessageBody.AuthAckMessage prototype) {
-      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
-    }
-    @java.lang.Override
-    public Builder toBuilder() {
-      return this == DEFAULT_INSTANCE
-          ? new Builder() : new Builder().mergeFrom(this);
-    }
-
-    @java.lang.Override
-    protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
-      Builder builder = new Builder(parent);
-      return builder;
-    }
-    /**
-     * Protobuf type {@code protocol.AuthAckMessage}
-     */
-    public static final class Builder extends
-        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:protocol.AuthAckMessage)
-        org.txazo.im.common.protocol.MessageBody.AuthAckMessageOrBuilder {
-      public static final com.google.protobuf.Descriptors.Descriptor
-          getDescriptor() {
-        return org.txazo.im.common.protocol.MessageBody.internal_static_protocol_AuthAckMessage_descriptor;
-      }
-
-      @java.lang.Override
-      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-          internalGetFieldAccessorTable() {
-        return org.txazo.im.common.protocol.MessageBody.internal_static_protocol_AuthAckMessage_fieldAccessorTable
-            .ensureFieldAccessorsInitialized(
-                org.txazo.im.common.protocol.MessageBody.AuthAckMessage.class, org.txazo.im.common.protocol.MessageBody.AuthAckMessage.Builder.class);
-      }
-
-      // Construct using org.txazo.im.common.protocol.MessageBody.AuthAckMessage.newBuilder()
-      private Builder() {
-        maybeForceBuilderInitialization();
-      }
-
-      private Builder(
-          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
-        super(parent);
-        maybeForceBuilderInitialization();
-      }
-      private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessageV3
-                .alwaysUseFieldBuilders) {
-        }
-      }
-      @java.lang.Override
-      public Builder clear() {
-        super.clear();
-        userId_ = 0;
-
-        return this;
-      }
-
-      @java.lang.Override
-      public com.google.protobuf.Descriptors.Descriptor
-          getDescriptorForType() {
-        return org.txazo.im.common.protocol.MessageBody.internal_static_protocol_AuthAckMessage_descriptor;
-      }
-
-      @java.lang.Override
-      public org.txazo.im.common.protocol.MessageBody.AuthAckMessage getDefaultInstanceForType() {
-        return org.txazo.im.common.protocol.MessageBody.AuthAckMessage.getDefaultInstance();
-      }
-
-      @java.lang.Override
-      public org.txazo.im.common.protocol.MessageBody.AuthAckMessage build() {
-        org.txazo.im.common.protocol.MessageBody.AuthAckMessage result = buildPartial();
-        if (!result.isInitialized()) {
-          throw newUninitializedMessageException(result);
-        }
-        return result;
-      }
-
-      @java.lang.Override
-      public org.txazo.im.common.protocol.MessageBody.AuthAckMessage buildPartial() {
-        org.txazo.im.common.protocol.MessageBody.AuthAckMessage result = new org.txazo.im.common.protocol.MessageBody.AuthAckMessage(this);
-        result.userId_ = userId_;
-        onBuilt();
-        return result;
-      }
-
-      @java.lang.Override
-      public Builder clone() {
-        return super.clone();
-      }
-      @java.lang.Override
-      public Builder setField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
-        return super.setField(field, value);
-      }
-      @java.lang.Override
-      public Builder clearField(
-          com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return super.clearField(field);
-      }
-      @java.lang.Override
-      public Builder clearOneof(
-          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return super.clearOneof(oneof);
-      }
-      @java.lang.Override
-      public Builder setRepeatedField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          int index, java.lang.Object value) {
-        return super.setRepeatedField(field, index, value);
-      }
-      @java.lang.Override
-      public Builder addRepeatedField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
-        return super.addRepeatedField(field, value);
-      }
-      @java.lang.Override
-      public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof org.txazo.im.common.protocol.MessageBody.AuthAckMessage) {
-          return mergeFrom((org.txazo.im.common.protocol.MessageBody.AuthAckMessage)other);
-        } else {
-          super.mergeFrom(other);
-          return this;
-        }
-      }
-
-      public Builder mergeFrom(org.txazo.im.common.protocol.MessageBody.AuthAckMessage other) {
-        if (other == org.txazo.im.common.protocol.MessageBody.AuthAckMessage.getDefaultInstance()) return this;
-        if (other.getUserId() != 0) {
-          setUserId(other.getUserId());
-        }
-        this.mergeUnknownFields(other.unknownFields);
-        onChanged();
-        return this;
-      }
-
-      @java.lang.Override
-      public final boolean isInitialized() {
-        return true;
-      }
-
-      @java.lang.Override
-      public Builder mergeFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws java.io.IOException {
-        org.txazo.im.common.protocol.MessageBody.AuthAckMessage parsedMessage = null;
-        try {
-          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
-        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (org.txazo.im.common.protocol.MessageBody.AuthAckMessage) e.getUnfinishedMessage();
-          throw e.unwrapIOException();
-        } finally {
-          if (parsedMessage != null) {
-            mergeFrom(parsedMessage);
-          }
-        }
-        return this;
-      }
-
-      private int userId_ ;
-      /**
-       * <code>int32 userId = 1;</code>
-       * @return The userId.
-       */
-      public int getUserId() {
-        return userId_;
-      }
-      /**
-       * <code>int32 userId = 1;</code>
-       * @param value The userId to set.
-       * @return This builder for chaining.
-       */
-      public Builder setUserId(int value) {
-        
-        userId_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>int32 userId = 1;</code>
-       * @return This builder for chaining.
-       */
-      public Builder clearUserId() {
-        
-        userId_ = 0;
-        onChanged();
-        return this;
-      }
-      @java.lang.Override
-      public final Builder setUnknownFields(
-          final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFields(unknownFields);
-      }
-
-      @java.lang.Override
-      public final Builder mergeUnknownFields(
-          final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.mergeUnknownFields(unknownFields);
-      }
-
-
-      // @@protoc_insertion_point(builder_scope:protocol.AuthAckMessage)
-    }
-
-    // @@protoc_insertion_point(class_scope:protocol.AuthAckMessage)
-    private static final org.txazo.im.common.protocol.MessageBody.AuthAckMessage DEFAULT_INSTANCE;
-    static {
-      DEFAULT_INSTANCE = new org.txazo.im.common.protocol.MessageBody.AuthAckMessage();
-    }
-
-    public static org.txazo.im.common.protocol.MessageBody.AuthAckMessage getDefaultInstance() {
-      return DEFAULT_INSTANCE;
-    }
-
-    private static final com.google.protobuf.Parser<AuthAckMessage>
-        PARSER = new com.google.protobuf.AbstractParser<AuthAckMessage>() {
-      @java.lang.Override
-      public AuthAckMessage parsePartialFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return new AuthAckMessage(input, extensionRegistry);
-      }
-    };
-
-    public static com.google.protobuf.Parser<AuthAckMessage> parser() {
-      return PARSER;
-    }
-
-    @java.lang.Override
-    public com.google.protobuf.Parser<AuthAckMessage> getParserForType() {
-      return PARSER;
-    }
-
-    @java.lang.Override
-    public org.txazo.im.common.protocol.MessageBody.AuthAckMessage getDefaultInstanceForType() {
+    public org.txazo.im.common.protocol.MessageBody.HeartbeatResponsePacket getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
   }
 
   private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_protocol_AuthRequestMessage_descriptor;
+    internal_static_protocol_HeartbeatRequestPacket_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_protocol_AuthRequestMessage_fieldAccessorTable;
+      internal_static_protocol_HeartbeatRequestPacket_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_protocol_AckMessage_descriptor;
+    internal_static_protocol_HeartbeatResponsePacket_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_protocol_AckMessage_fieldAccessorTable;
-  private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_protocol_AuthAckMessage_descriptor;
-  private static final 
-    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_protocol_AuthAckMessage_fieldAccessorTable;
+      internal_static_protocol_HeartbeatResponsePacket_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -1792,35 +1183,30 @@ public final class MessageBody {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\rMessage.proto\022\010protocol\"3\n\022AuthRequest" +
-      "Message\022\016\n\006userId\030\001 \001(\005\022\r\n\005token\030\002 \001(\t\"+" +
-      "\n\nAckMessage\022\014\n\004code\030\001 \001(\005\022\017\n\007message\030\002 " +
-      "\001(\t\" \n\016AuthAckMessage\022\016\n\006userId\030\001 \001(\005B+\n" +
-      "\034org.txazo.im.common.protocolB\013MessageBo" +
-      "dyb\006proto3"
+      "\n\rMessage.proto\022\010protocol\"@\n\026HeartbeatRe" +
+      "questPacket\022&\n\007command\030\001 \001(\0162\025.protocol." +
+      "CommandType\"A\n\027HeartbeatResponsePacket\022&" +
+      "\n\007command\030\001 \001(\0162\025.protocol.CommandType*:" +
+      "\n\013CommandType\022\024\n\020HeartbeatRequest\020\000\022\025\n\021H" +
+      "eartbeatResponse\020\001B+\n\034org.txazo.im.commo" +
+      "n.protocolB\013MessageBodyb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
         });
-    internal_static_protocol_AuthRequestMessage_descriptor =
+    internal_static_protocol_HeartbeatRequestPacket_descriptor =
       getDescriptor().getMessageTypes().get(0);
-    internal_static_protocol_AuthRequestMessage_fieldAccessorTable = new
+    internal_static_protocol_HeartbeatRequestPacket_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_protocol_AuthRequestMessage_descriptor,
-        new java.lang.String[] { "UserId", "Token", });
-    internal_static_protocol_AckMessage_descriptor =
+        internal_static_protocol_HeartbeatRequestPacket_descriptor,
+        new java.lang.String[] { "Command", });
+    internal_static_protocol_HeartbeatResponsePacket_descriptor =
       getDescriptor().getMessageTypes().get(1);
-    internal_static_protocol_AckMessage_fieldAccessorTable = new
+    internal_static_protocol_HeartbeatResponsePacket_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_protocol_AckMessage_descriptor,
-        new java.lang.String[] { "Code", "Message", });
-    internal_static_protocol_AuthAckMessage_descriptor =
-      getDescriptor().getMessageTypes().get(2);
-    internal_static_protocol_AuthAckMessage_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_protocol_AuthAckMessage_descriptor,
-        new java.lang.String[] { "UserId", });
+        internal_static_protocol_HeartbeatResponsePacket_descriptor,
+        new java.lang.String[] { "Command", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)

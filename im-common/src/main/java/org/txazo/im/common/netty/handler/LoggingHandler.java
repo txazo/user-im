@@ -1,4 +1,4 @@
-package org.txazo.im.server.netty.handler;
+package org.txazo.im.common.netty.handler;
 
 import io.netty.channel.*;
 import lombok.extern.slf4j.Slf4j;
@@ -7,7 +7,7 @@ import java.net.SocketAddress;
 
 @Slf4j
 @ChannelHandler.Sharable
-public class LoggerHandler implements ChannelInboundHandler, ChannelOutboundHandler {
+public class LoggingHandler implements ChannelInboundHandler, ChannelOutboundHandler {
 
     @Override
     public void channelRegistered(ChannelHandlerContext ctx) throws Exception {

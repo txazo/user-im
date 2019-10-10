@@ -1,9 +1,11 @@
 package org.txazo.im.server.netty.handler;
 
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import org.txazo.im.server.netty.context.ChannelContextManager;
 
+@ChannelHandler.Sharable
 public class ChannelInitializationHandler extends ChannelInboundHandlerAdapter {
 
     private ChannelContextManager channelContextManager;
