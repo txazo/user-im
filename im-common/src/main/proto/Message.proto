@@ -5,19 +5,10 @@ package protocol;
 option java_package = "org.txazo.im.common.protocol";
 option java_outer_classname = "MessageBody";
 
-enum CommandType {
-  HeartbeatRequest = 0;
-  HeartbeatResponse = 1;
-}
-
-message AbstractPacket {
-  int8 version;
-}
-
 message HeartbeatRequestPacket {
-  CommandType command = 1;
+  int32 command = 1;
 }
 
 message HeartbeatResponsePacket {
-  CommandType command = 1;
+  int32 command = 1;
 }

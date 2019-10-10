@@ -51,35 +51,34 @@ public class NettyClient {
 
                     @Override
                     protected void initChannel(SocketChannel ch) throws Exception {
-                        ch.pipeline()
-                                .addLast(nettyClientConfig.getBusinessGroup(), nettyClientConfig.getLoggingHandler())
-                                .addLast(nettyClientConfig.getBusinessGroup(), new ChannelInboundHandlerAdapter() {
+                        ch.pipeline().addLast(nettyClientConfig.getBusinessGroup(), LoggingHandler.INSTANCE);
+                        ch.pipeline().addLast(nettyClientConfig.getBusinessGroup(), new ChannelInboundHandlerAdapter() {
 
-                                    @Override
-                                    public void channelActive(ChannelHandlerContext ctx) throws Exception {
-                                        reconnectTimes = 0;
-                                        super.channelActive(ctx);
-                                    }
+                            @Override
+                            public void channelActive(ChannelHandlerContext ctx) throws Exception {
+                                reconnectTimes = 0;
+                                super.channelActive(ctx);
+                            }
 
-                                    @Override
-                                    public void channelInactive(ChannelHandlerContext ctx) throws Exception {
-                                        if (!closed && reconnectTimes < nettyClientConfig.getMaxReconnectTimes()) {
-                                            reconnectTimes++;
-                                            ctx.channel().eventLoop().schedule(() -> connect(true),
-                                                    ((int) Math.pow(2, nettyClientConfig.getReconnectInterval())) * reconnectTimes, TimeUnit.SECONDS);
-                                        } else {
-                                            log.debug("IMClient closed after reconnect failed");
-                                            ctx.close();
-                                        }
-                                        super.channelInactive(ctx);
-                                    }
+                            @Override
+                            public void channelInactive(ChannelHandlerContext ctx) throws Exception {
+                                if (!closed && reconnectTimes < nettyClientConfig.getMaxReconnectTimes()) {
+                                    reconnectTimes++;
+                                    ctx.channel().eventLoop().schedule(() -> connect(true),
+                                            ((int) Math.pow(2, nettyClientConfig.getReconnectInterval())) * reconnectTimes, TimeUnit.SECONDS);
+                                } else {
+                                    log.debug("IMClient closed after reconnect failed");
+                                    ctx.close();
+                                }
+                                super.channelInactive(ctx);
+                            }
 
-                                })
-//                                .addLast(new IMIdleStateHandler(0, 5, 0, nettyClientConfig.getIdleMaxTimes()))
-                                .addLast(new HeartbeatClientHandler(30))
-                                .addLast(new IMLengthFieldBasedFrameDecoder())
-                                .addLast(new ProtoEncoder())
-                                .addLast(new ProtoDecoder());
+                        });
+                        ch.pipeline().addLast(nettyClientConfig.getBusinessGroup(), new IMIdleStateHandler(nettyClientConfig.getHeartbeatInterval(), 0, 0, nettyClientConfig.getIdleMaxTimes()));
+                        ch.pipeline().addLast(nettyClientConfig.getBusinessGroup(), new HeartbeatClientHandler(nettyClientConfig.getHeartbeatInterval()));
+                        ch.pipeline().addLast(nettyClientConfig.getBusinessGroup(), new IMLengthFieldBasedFrameDecoder());
+                        ch.pipeline().addLast(nettyClientConfig.getBusinessGroup(), new ProtoDecoder());
+                        ch.pipeline().addLast(nettyClientConfig.getBusinessGroup(), ProtoEncoder.INSTANCE);
                     }
 
                 });

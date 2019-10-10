@@ -14,124 +14,15 @@ public final class MessageBody {
     registerAllExtensions(
         (com.google.protobuf.ExtensionRegistryLite) registry);
   }
-  /**
-   * Protobuf enum {@code protocol.CommandType}
-   */
-  public enum CommandType
-      implements com.google.protobuf.ProtocolMessageEnum {
-    /**
-     * <code>HeartbeatRequest = 0;</code>
-     */
-    HeartbeatRequest(0),
-    /**
-     * <code>HeartbeatResponse = 1;</code>
-     */
-    HeartbeatResponse(1),
-    UNRECOGNIZED(-1),
-    ;
-
-    /**
-     * <code>HeartbeatRequest = 0;</code>
-     */
-    public static final int HeartbeatRequest_VALUE = 0;
-    /**
-     * <code>HeartbeatResponse = 1;</code>
-     */
-    public static final int HeartbeatResponse_VALUE = 1;
-
-
-    public final int getNumber() {
-      if (this == UNRECOGNIZED) {
-        throw new java.lang.IllegalArgumentException(
-            "Can't get the number of an unknown enum value.");
-      }
-      return value;
-    }
-
-    /**
-     * @param value The numeric wire value of the corresponding enum entry.
-     * @return The enum associated with the given numeric wire value.
-     * @deprecated Use {@link #forNumber(int)} instead.
-     */
-    @java.lang.Deprecated
-    public static CommandType valueOf(int value) {
-      return forNumber(value);
-    }
-
-    /**
-     * @param value The numeric wire value of the corresponding enum entry.
-     * @return The enum associated with the given numeric wire value.
-     */
-    public static CommandType forNumber(int value) {
-      switch (value) {
-        case 0: return HeartbeatRequest;
-        case 1: return HeartbeatResponse;
-        default: return null;
-      }
-    }
-
-    public static com.google.protobuf.Internal.EnumLiteMap<CommandType>
-        internalGetValueMap() {
-      return internalValueMap;
-    }
-    private static final com.google.protobuf.Internal.EnumLiteMap<
-        CommandType> internalValueMap =
-          new com.google.protobuf.Internal.EnumLiteMap<CommandType>() {
-            public CommandType findValueByNumber(int number) {
-              return CommandType.forNumber(number);
-            }
-          };
-
-    public final com.google.protobuf.Descriptors.EnumValueDescriptor
-        getValueDescriptor() {
-      return getDescriptor().getValues().get(ordinal());
-    }
-    public final com.google.protobuf.Descriptors.EnumDescriptor
-        getDescriptorForType() {
-      return getDescriptor();
-    }
-    public static final com.google.protobuf.Descriptors.EnumDescriptor
-        getDescriptor() {
-      return org.txazo.im.common.protocol.MessageBody.getDescriptor().getEnumTypes().get(0);
-    }
-
-    private static final CommandType[] VALUES = values();
-
-    public static CommandType valueOf(
-        com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
-      if (desc.getType() != getDescriptor()) {
-        throw new java.lang.IllegalArgumentException(
-          "EnumValueDescriptor is not for this type.");
-      }
-      if (desc.getIndex() == -1) {
-        return UNRECOGNIZED;
-      }
-      return VALUES[desc.getIndex()];
-    }
-
-    private final int value;
-
-    private CommandType(int value) {
-      this.value = value;
-    }
-
-    // @@protoc_insertion_point(enum_scope:protocol.CommandType)
-  }
-
   public interface HeartbeatRequestPacketOrBuilder extends
       // @@protoc_insertion_point(interface_extends:protocol.HeartbeatRequestPacket)
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>.protocol.CommandType command = 1;</code>
-     * @return The enum numeric value on the wire for command.
-     */
-    int getCommandValue();
-    /**
-     * <code>.protocol.CommandType command = 1;</code>
+     * <code>int32 command = 1;</code>
      * @return The command.
      */
-    org.txazo.im.common.protocol.MessageBody.CommandType getCommand();
+    int getCommand();
   }
   /**
    * Protobuf type {@code protocol.HeartbeatRequestPacket}
@@ -146,7 +37,6 @@ public final class MessageBody {
       super(builder);
     }
     private HeartbeatRequestPacket() {
-      command_ = 0;
     }
 
     @java.lang.Override
@@ -180,9 +70,8 @@ public final class MessageBody {
               done = true;
               break;
             case 8: {
-              int rawValue = input.readEnum();
 
-              command_ = rawValue;
+              command_ = input.readInt32();
               break;
             }
             default: {
@@ -220,20 +109,11 @@ public final class MessageBody {
     public static final int COMMAND_FIELD_NUMBER = 1;
     private int command_;
     /**
-     * <code>.protocol.CommandType command = 1;</code>
-     * @return The enum numeric value on the wire for command.
-     */
-    public int getCommandValue() {
-      return command_;
-    }
-    /**
-     * <code>.protocol.CommandType command = 1;</code>
+     * <code>int32 command = 1;</code>
      * @return The command.
      */
-    public org.txazo.im.common.protocol.MessageBody.CommandType getCommand() {
-      @SuppressWarnings("deprecation")
-      org.txazo.im.common.protocol.MessageBody.CommandType result = org.txazo.im.common.protocol.MessageBody.CommandType.valueOf(command_);
-      return result == null ? org.txazo.im.common.protocol.MessageBody.CommandType.UNRECOGNIZED : result;
+    public int getCommand() {
+      return command_;
     }
 
     private byte memoizedIsInitialized = -1;
@@ -250,8 +130,8 @@ public final class MessageBody {
     @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (command_ != org.txazo.im.common.protocol.MessageBody.CommandType.HeartbeatRequest.getNumber()) {
-        output.writeEnum(1, command_);
+      if (command_ != 0) {
+        output.writeInt32(1, command_);
       }
       unknownFields.writeTo(output);
     }
@@ -262,9 +142,9 @@ public final class MessageBody {
       if (size != -1) return size;
 
       size = 0;
-      if (command_ != org.txazo.im.common.protocol.MessageBody.CommandType.HeartbeatRequest.getNumber()) {
+      if (command_ != 0) {
         size += com.google.protobuf.CodedOutputStream
-          .computeEnumSize(1, command_);
+          .computeInt32Size(1, command_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -281,7 +161,8 @@ public final class MessageBody {
       }
       org.txazo.im.common.protocol.MessageBody.HeartbeatRequestPacket other = (org.txazo.im.common.protocol.MessageBody.HeartbeatRequestPacket) obj;
 
-      if (command_ != other.command_) return false;
+      if (getCommand()
+          != other.getCommand()) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -294,7 +175,7 @@ public final class MessageBody {
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
       hash = (37 * hash) + COMMAND_FIELD_NUMBER;
-      hash = (53 * hash) + command_;
+      hash = (53 * hash) + getCommand();
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -505,8 +386,8 @@ public final class MessageBody {
 
       public Builder mergeFrom(org.txazo.im.common.protocol.MessageBody.HeartbeatRequestPacket other) {
         if (other == org.txazo.im.common.protocol.MessageBody.HeartbeatRequestPacket.getDefaultInstance()) return this;
-        if (other.command_ != 0) {
-          setCommandValue(other.getCommandValue());
+        if (other.getCommand() != 0) {
+          setCommand(other.getCommand());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -537,49 +418,27 @@ public final class MessageBody {
         return this;
       }
 
-      private int command_ = 0;
+      private int command_ ;
       /**
-       * <code>.protocol.CommandType command = 1;</code>
-       * @return The enum numeric value on the wire for command.
+       * <code>int32 command = 1;</code>
+       * @return The command.
        */
-      public int getCommandValue() {
+      public int getCommand() {
         return command_;
       }
       /**
-       * <code>.protocol.CommandType command = 1;</code>
-       * @param value The enum numeric value on the wire for command to set.
+       * <code>int32 command = 1;</code>
+       * @param value The command to set.
        * @return This builder for chaining.
        */
-      public Builder setCommandValue(int value) {
+      public Builder setCommand(int value) {
+        
         command_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>.protocol.CommandType command = 1;</code>
-       * @return The command.
-       */
-      public org.txazo.im.common.protocol.MessageBody.CommandType getCommand() {
-        @SuppressWarnings("deprecation")
-        org.txazo.im.common.protocol.MessageBody.CommandType result = org.txazo.im.common.protocol.MessageBody.CommandType.valueOf(command_);
-        return result == null ? org.txazo.im.common.protocol.MessageBody.CommandType.UNRECOGNIZED : result;
-      }
-      /**
-       * <code>.protocol.CommandType command = 1;</code>
-       * @param value The command to set.
-       * @return This builder for chaining.
-       */
-      public Builder setCommand(org.txazo.im.common.protocol.MessageBody.CommandType value) {
-        if (value == null) {
-          throw new NullPointerException();
-        }
-        
-        command_ = value.getNumber();
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>.protocol.CommandType command = 1;</code>
+       * <code>int32 command = 1;</code>
        * @return This builder for chaining.
        */
       public Builder clearCommand() {
@@ -646,15 +505,10 @@ public final class MessageBody {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>.protocol.CommandType command = 1;</code>
-     * @return The enum numeric value on the wire for command.
-     */
-    int getCommandValue();
-    /**
-     * <code>.protocol.CommandType command = 1;</code>
+     * <code>int32 command = 1;</code>
      * @return The command.
      */
-    org.txazo.im.common.protocol.MessageBody.CommandType getCommand();
+    int getCommand();
   }
   /**
    * Protobuf type {@code protocol.HeartbeatResponsePacket}
@@ -669,7 +523,6 @@ public final class MessageBody {
       super(builder);
     }
     private HeartbeatResponsePacket() {
-      command_ = 0;
     }
 
     @java.lang.Override
@@ -703,9 +556,8 @@ public final class MessageBody {
               done = true;
               break;
             case 8: {
-              int rawValue = input.readEnum();
 
-              command_ = rawValue;
+              command_ = input.readInt32();
               break;
             }
             default: {
@@ -743,20 +595,11 @@ public final class MessageBody {
     public static final int COMMAND_FIELD_NUMBER = 1;
     private int command_;
     /**
-     * <code>.protocol.CommandType command = 1;</code>
-     * @return The enum numeric value on the wire for command.
-     */
-    public int getCommandValue() {
-      return command_;
-    }
-    /**
-     * <code>.protocol.CommandType command = 1;</code>
+     * <code>int32 command = 1;</code>
      * @return The command.
      */
-    public org.txazo.im.common.protocol.MessageBody.CommandType getCommand() {
-      @SuppressWarnings("deprecation")
-      org.txazo.im.common.protocol.MessageBody.CommandType result = org.txazo.im.common.protocol.MessageBody.CommandType.valueOf(command_);
-      return result == null ? org.txazo.im.common.protocol.MessageBody.CommandType.UNRECOGNIZED : result;
+    public int getCommand() {
+      return command_;
     }
 
     private byte memoizedIsInitialized = -1;
@@ -773,8 +616,8 @@ public final class MessageBody {
     @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (command_ != org.txazo.im.common.protocol.MessageBody.CommandType.HeartbeatRequest.getNumber()) {
-        output.writeEnum(1, command_);
+      if (command_ != 0) {
+        output.writeInt32(1, command_);
       }
       unknownFields.writeTo(output);
     }
@@ -785,9 +628,9 @@ public final class MessageBody {
       if (size != -1) return size;
 
       size = 0;
-      if (command_ != org.txazo.im.common.protocol.MessageBody.CommandType.HeartbeatRequest.getNumber()) {
+      if (command_ != 0) {
         size += com.google.protobuf.CodedOutputStream
-          .computeEnumSize(1, command_);
+          .computeInt32Size(1, command_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -804,7 +647,8 @@ public final class MessageBody {
       }
       org.txazo.im.common.protocol.MessageBody.HeartbeatResponsePacket other = (org.txazo.im.common.protocol.MessageBody.HeartbeatResponsePacket) obj;
 
-      if (command_ != other.command_) return false;
+      if (getCommand()
+          != other.getCommand()) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -817,7 +661,7 @@ public final class MessageBody {
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
       hash = (37 * hash) + COMMAND_FIELD_NUMBER;
-      hash = (53 * hash) + command_;
+      hash = (53 * hash) + getCommand();
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -1028,8 +872,8 @@ public final class MessageBody {
 
       public Builder mergeFrom(org.txazo.im.common.protocol.MessageBody.HeartbeatResponsePacket other) {
         if (other == org.txazo.im.common.protocol.MessageBody.HeartbeatResponsePacket.getDefaultInstance()) return this;
-        if (other.command_ != 0) {
-          setCommandValue(other.getCommandValue());
+        if (other.getCommand() != 0) {
+          setCommand(other.getCommand());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -1060,49 +904,27 @@ public final class MessageBody {
         return this;
       }
 
-      private int command_ = 0;
+      private int command_ ;
       /**
-       * <code>.protocol.CommandType command = 1;</code>
-       * @return The enum numeric value on the wire for command.
+       * <code>int32 command = 1;</code>
+       * @return The command.
        */
-      public int getCommandValue() {
+      public int getCommand() {
         return command_;
       }
       /**
-       * <code>.protocol.CommandType command = 1;</code>
-       * @param value The enum numeric value on the wire for command to set.
+       * <code>int32 command = 1;</code>
+       * @param value The command to set.
        * @return This builder for chaining.
        */
-      public Builder setCommandValue(int value) {
+      public Builder setCommand(int value) {
+        
         command_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>.protocol.CommandType command = 1;</code>
-       * @return The command.
-       */
-      public org.txazo.im.common.protocol.MessageBody.CommandType getCommand() {
-        @SuppressWarnings("deprecation")
-        org.txazo.im.common.protocol.MessageBody.CommandType result = org.txazo.im.common.protocol.MessageBody.CommandType.valueOf(command_);
-        return result == null ? org.txazo.im.common.protocol.MessageBody.CommandType.UNRECOGNIZED : result;
-      }
-      /**
-       * <code>.protocol.CommandType command = 1;</code>
-       * @param value The command to set.
-       * @return This builder for chaining.
-       */
-      public Builder setCommand(org.txazo.im.common.protocol.MessageBody.CommandType value) {
-        if (value == null) {
-          throw new NullPointerException();
-        }
-        
-        command_ = value.getNumber();
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>.protocol.CommandType command = 1;</code>
+       * <code>int32 command = 1;</code>
        * @return This builder for chaining.
        */
       public Builder clearCommand() {
@@ -1183,13 +1005,11 @@ public final class MessageBody {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\rMessage.proto\022\010protocol\"@\n\026HeartbeatRe" +
-      "questPacket\022&\n\007command\030\001 \001(\0162\025.protocol." +
-      "CommandType\"A\n\027HeartbeatResponsePacket\022&" +
-      "\n\007command\030\001 \001(\0162\025.protocol.CommandType*:" +
-      "\n\013CommandType\022\024\n\020HeartbeatRequest\020\000\022\025\n\021H" +
-      "eartbeatResponse\020\001B+\n\034org.txazo.im.commo" +
-      "n.protocolB\013MessageBodyb\006proto3"
+      "\n\rMessage.proto\022\010protocol\")\n\026HeartbeatRe" +
+      "questPacket\022\017\n\007command\030\001 \001(\005\"*\n\027Heartbea" +
+      "tResponsePacket\022\017\n\007command\030\001 \001(\005B+\n\034org." +
+      "txazo.im.common.protocolB\013MessageBodyb\006p" +
+      "roto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,

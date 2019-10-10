@@ -37,6 +37,7 @@ public class IMServer {
     private void init() {
         NioEventLoopGroup bossGroup = new NioEventLoopGroup(serverConfig.getBoosGroupThreads(), new IMThreadFactory("nio-boss-group"));
         NioEventLoopGroup wokerGroup = new NioEventLoopGroup(serverConfig.getWorkerGroupThreads(), new IMThreadFactory("nio-worker-group"));
+        NioEventLoopGroup businessGroup = new NioEventLoopGroup(serverConfig.getBusinessThreads(), new IMThreadFactory("nio-business-group"));
 
         ServerBootstrap serverBootstrap = new ServerBootstrap();
         serverBootstrap.group(bossGroup, wokerGroup)
@@ -58,13 +59,12 @@ public class IMServer {
 
                     @Override
                     protected void initChannel(SocketChannel ch) throws Exception {
-                        ch.pipeline()
-                                .addLast(loggingHandler)
-//                                .addLast(new IMIdleStateHandler(5, 0, 0, serverConfig.getIdleMaxTimes()))
-                                .addLast(new IMLengthFieldBasedFrameDecoder())
-                                .addLast(new ProtoEncoder())
-                                .addLast(new ProtoDecoder())
-                                .addLast(new HeartbeatRequestHandler());
+                        ch.pipeline().addLast(businessGroup, LoggingHandler.INSTANCE);
+                        ch.pipeline().addLast(businessGroup, new IMIdleStateHandler(serverConfig.getHeartbeatInterval(), 0, 0, serverConfig.getIdleMaxTimes()));
+                        ch.pipeline().addLast(businessGroup, new IMLengthFieldBasedFrameDecoder());
+                        ch.pipeline().addLast(businessGroup, new ProtoDecoder());
+                        ch.pipeline().addLast(businessGroup, new HeartbeatRequestHandler());
+                        ch.pipeline().addLast(businessGroup, ProtoEncoder.INSTANCE);
                     }
 
                 });

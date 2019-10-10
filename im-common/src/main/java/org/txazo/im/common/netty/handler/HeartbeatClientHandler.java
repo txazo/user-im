@@ -2,6 +2,7 @@ package org.txazo.im.common.netty.handler;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
+import org.txazo.im.common.protocol.CommandType;
 import org.txazo.im.common.protocol.MessageBody;
 
 import java.util.concurrent.ScheduledFuture;
@@ -32,11 +33,11 @@ public class HeartbeatClientHandler extends ChannelInboundHandlerAdapter {
         future = ctx.channel().eventLoop().scheduleAtFixedRate(() -> {
             if (ctx.channel().isActive()) {
                 MessageBody.HeartbeatRequestPacket packet = MessageBody.HeartbeatRequestPacket.newBuilder()
-                        .setCommand(MessageBody.CommandType.HeartbeatRequest)
+                        .setCommand(CommandType.HeartbeatRequest)
                         .build();
                 ctx.channel().writeAndFlush(packet);
             }
-        }, heartbeatInterval, heartbeatInterval, TimeUnit.SECONDS);
+        }, 5, heartbeatInterval, TimeUnit.SECONDS);
     }
 
 }

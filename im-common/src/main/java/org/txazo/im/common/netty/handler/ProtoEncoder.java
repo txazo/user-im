@@ -2,6 +2,7 @@ package org.txazo.im.common.netty.handler;
 
 import com.google.protobuf.AbstractMessage;
 import io.netty.buffer.ByteBuf;
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToByteEncoder;
 import lombok.extern.slf4j.Slf4j;
@@ -10,7 +11,10 @@ import org.txazo.im.common.protocol.CommandType;
 import org.txazo.im.common.protocol.Packet;
 
 @Slf4j
+@ChannelHandler.Sharable
 public class ProtoEncoder extends MessageToByteEncoder<AbstractMessage> {
+
+    public static final ProtoEncoder INSTANCE = new ProtoEncoder();
 
     @Override
     protected void encode(ChannelHandlerContext ctx, AbstractMessage msg, ByteBuf out) throws Exception {
@@ -27,6 +31,7 @@ public class ProtoEncoder extends MessageToByteEncoder<AbstractMessage> {
         }
 
         out.writeInt(Packet.MAGIC);
+        out.writeByte(Packet.VERSION_1);
         out.writeByte(Packet.GZIP_NONE);
         out.writeByte(Packet.SERIALIZATION_PROTOBUF);
         out.writeByte(command);

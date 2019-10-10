@@ -14,13 +14,12 @@ public class ProtoDecoder extends ByteToMessageDecoder {
 
     @Override
     protected void decode(ChannelHandlerContext ctx, ByteBuf in, List<Object> out) throws Exception {
-        while (in.isReadable()) {
-            out.add(codec(in));
-        }
+        out.add(codec(in));
     }
 
     private AbstractMessage codec(ByteBuf in) throws InvalidProtocolBufferException {
         int magic = in.readInt();
+        in.readByte();
         in.readByte();
         in.readByte();
         byte command = in.readByte();

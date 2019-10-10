@@ -17,11 +17,17 @@ public class IMServerConfig {
     @Value("${im.server.idle.max-times:3}")
     private Integer idleMaxTimes;
 
+    @Value("${im.server.heartbeat.interval:10}")
+    private Integer heartbeatInterval;
+
     @Value("${im.server.netty.boosGroup.threads:1}")
     private Integer boosGroupThreads;
 
     @Value("${im.server.netty.workerGroup.threads:5}")
     private Integer workerGroupThreads;
+
+    @Value("${im.server.netty.businessGroup.threads:20}")
+    private Integer businessThreads;
 
     @Value("${im.server.zk.servers:}")
     private String zkServers;
