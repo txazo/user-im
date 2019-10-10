@@ -6,7 +6,7 @@ import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.util.concurrent.GenericFutureListener;
 import lombok.extern.slf4j.Slf4j;
-import org.txazo.im.common.netty.handler.IMLengthFieldBasedFrameDecoder;
+import org.txazo.im.common.netty.handler.*;
 
 import java.util.concurrent.TimeUnit;
 
@@ -75,7 +75,11 @@ public class NettyClient {
                                     }
 
                                 })
-                                .addLast(new IMLengthFieldBasedFrameDecoder());
+//                                .addLast(new IMIdleStateHandler(0, 5, 0, nettyClientConfig.getIdleMaxTimes()))
+                                .addLast(new HeartbeatClientHandler(30))
+                                .addLast(new IMLengthFieldBasedFrameDecoder())
+                                .addLast(new ProtoEncoder())
+                                .addLast(new ProtoDecoder());
                     }
 
                 });

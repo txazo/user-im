@@ -3,6 +3,7 @@ package org.txazo.im.common.netty.handler;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
+import org.txazo.im.common.constant.IMConstants;
 import org.txazo.im.common.protocol.Packet;
 
 /**
@@ -19,7 +20,7 @@ import org.txazo.im.common.protocol.Packet;
 public class IMLengthFieldBasedFrameDecoder extends LengthFieldBasedFrameDecoder {
 
     private static final int lengthFieldOffset = 4 + 1 + 1 + 1 + 1;
-    private static final int lengthFieldLength = 2;
+    private static final int lengthFieldLength = IMConstants.MESSAGE_FIELD_LENGTH;
     private static final int maxFrameLength = (1 << (lengthFieldLength * 8)) - 1 + lengthFieldOffset + lengthFieldLength;
 
     public IMLengthFieldBasedFrameDecoder() {

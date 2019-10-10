@@ -6,21 +6,18 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.ServerSocketChannel;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
-import io.netty.handler.timeout.IdleStateHandler;
 import io.netty.util.concurrent.GenericFutureListener;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.txazo.im.common.netty.handler.IMIdleStateHandler;
-import org.txazo.im.common.netty.handler.IMLengthFieldBasedFrameDecoder;
+import org.txazo.im.common.netty.handler.*;
 import org.txazo.im.common.netty.IMThreadFactory;
-import org.txazo.im.common.netty.handler.LoggingHandler;
 import org.txazo.im.common.zk.IMServerRegistry;
 import org.txazo.im.server.common.Attributes;
 import org.txazo.im.server.config.IMServerConfig;
+import org.txazo.im.server.netty.handler.HeartbeatRequestHandler;
 import org.txazo.im.server.netty.handler.IMServerRegisterHandler;
 
 import javax.annotation.PostConstruct;
-import java.util.concurrent.TimeUnit;
 
 @Slf4j
 public class IMServer {
@@ -63,8 +60,11 @@ public class IMServer {
                     protected void initChannel(SocketChannel ch) throws Exception {
                         ch.pipeline()
                                 .addLast(loggingHandler)
+//                                .addLast(new IMIdleStateHandler(5, 0, 0, serverConfig.getIdleMaxTimes()))
                                 .addLast(new IMLengthFieldBasedFrameDecoder())
-                                .addLast(new IMIdleStateHandler(5, 0, 0, serverConfig.getIdleMaxTimes()));
+                                .addLast(new ProtoEncoder())
+                                .addLast(new ProtoDecoder())
+                                .addLast(new HeartbeatRequestHandler());
                     }
 
                 });

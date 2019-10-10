@@ -5,7 +5,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.txazo.im.common.zk.IMServerRegistry;
 import org.txazo.im.server.netty.IMServer;
-import org.txazo.im.server.netty.context.ChannelContextManager;
+import org.txazo.im.server.netty.channel.ChannelManager;
 import org.txazo.im.server.netty.handler.IMServerRegisterHandler;
 
 @Configuration
@@ -20,8 +20,8 @@ public class IMServerConfiguration {
     }
 
     @Bean
-    public ChannelContextManager channelContextManager() {
-        return new ChannelContextManager();
+    public ChannelManager channelContextManager() {
+        return new ChannelManager();
     }
 
     @Bean

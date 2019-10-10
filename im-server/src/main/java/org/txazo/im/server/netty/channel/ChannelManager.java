@@ -1,9 +1,9 @@
-package org.txazo.im.server.netty.context;
+package org.txazo.im.server.netty.channel;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class ChannelContextManager {
+public class ChannelManager {
 
     private Map<Integer, ChannelContext> contextMap = new HashMap<>();
 

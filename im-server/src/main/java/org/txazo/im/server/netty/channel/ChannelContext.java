@@ -1,4 +1,4 @@
-package org.txazo.im.server.netty.context;
+package org.txazo.im.server.netty.channel;
 
 public class ChannelContext {
 

@@ -17,6 +17,8 @@ public class NettyClientConfig {
     // 重连间隔
     private int reconnectInterval = 1;
 
+    private Integer idleMaxTimes = 3;
+
     // 工作线程池
     private NioEventLoopGroup wokerGroup;
 

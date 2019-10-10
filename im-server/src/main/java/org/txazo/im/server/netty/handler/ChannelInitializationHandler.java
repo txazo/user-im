@@ -3,14 +3,14 @@ package org.txazo.im.server.netty.handler;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
-import org.txazo.im.server.netty.context.ChannelContextManager;
+import org.txazo.im.server.netty.channel.ChannelManager;
 
 @ChannelHandler.Sharable
 public class ChannelInitializationHandler extends ChannelInboundHandlerAdapter {
 
-    private ChannelContextManager channelContextManager;
+    private ChannelManager channelContextManager;
 
-    public ChannelInitializationHandler(ChannelContextManager channelContextManager) {
+    public ChannelInitializationHandler(ChannelManager channelContextManager) {
         this.channelContextManager = channelContextManager;
     }
 
