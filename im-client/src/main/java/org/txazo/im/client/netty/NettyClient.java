@@ -8,8 +8,6 @@ import io.netty.util.concurrent.GenericFutureListener;
 import lombok.extern.slf4j.Slf4j;
 import org.txazo.im.common.netty.handler.*;
 
-import java.util.concurrent.TimeUnit;
-
 @Slf4j
 public class NettyClient {
 
@@ -52,28 +50,7 @@ public class NettyClient {
                     @Override
                     protected void initChannel(SocketChannel ch) throws Exception {
                         ch.pipeline().addLast(nettyClientConfig.getBusinessGroup(), LoggingHandler.INSTANCE);
-                        ch.pipeline().addLast(nettyClientConfig.getBusinessGroup(), new ChannelInboundHandlerAdapter() {
-
-                            @Override
-                            public void channelActive(ChannelHandlerContext ctx) throws Exception {
-                                reconnectTimes = 0;
-                                super.channelActive(ctx);
-                            }
-
-                            @Override
-                            public void channelInactive(ChannelHandlerContext ctx) throws Exception {
-                                if (!closed && reconnectTimes < nettyClientConfig.getMaxReconnectTimes()) {
-                                    reconnectTimes++;
-                                    ctx.channel().eventLoop().schedule(() -> connect(true),
-                                            ((int) Math.pow(2, nettyClientConfig.getReconnectInterval())) * reconnectTimes, TimeUnit.SECONDS);
-                                } else {
-                                    log.debug("IMClient closed after reconnect failed");
-                                    ctx.close();
-                                }
-                                super.channelInactive(ctx);
-                            }
-
-                        });
+                        ch.pipeline().addLast(nettyClientConfig.getBusinessGroup(), new BreakLineReconnectHandler(nettyClientConfig.getMaxReconnectTimes(), nettyClientConfig.getReconnectInterval(), () -> connect(true)));
                         ch.pipeline().addLast(nettyClientConfig.getBusinessGroup(), new IMIdleStateHandler(nettyClientConfig.getHeartbeatInterval(), 0, 0, nettyClientConfig.getIdleMaxTimes()));
                         ch.pipeline().addLast(nettyClientConfig.getBusinessGroup(), new HeartbeatClientHandler(nettyClientConfig.getHeartbeatInterval()));
                         ch.pipeline().addLast(nettyClientConfig.getBusinessGroup(), new IMLengthFieldBasedFrameDecoder());
