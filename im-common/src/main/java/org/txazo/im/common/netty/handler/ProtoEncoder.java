@@ -1,6 +1,7 @@
 package org.txazo.im.common.netty.handler;
 
 import com.google.protobuf.AbstractMessage;
+import com.googlecode.protobuf.format.JsonFormat;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
@@ -29,6 +30,8 @@ public class ProtoEncoder extends MessageToByteEncoder<AbstractMessage> {
             log.error("Message type {} is invalid", msg.getClass());
             return;
         }
+
+        log.debug("[Send Packet] {} {}", msg.getClass().getSimpleName(), JsonFormat.printToString(msg));
 
         out.writeInt(Packet.MAGIC);
         out.writeByte(Packet.VERSION_1);

@@ -2,14 +2,17 @@ package org.txazo.im.common.netty.handler;
 
 import com.google.protobuf.AbstractMessage;
 import com.google.protobuf.InvalidProtocolBufferException;
+import com.googlecode.protobuf.format.JsonFormat;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.ByteToMessageDecoder;
+import lombok.extern.slf4j.Slf4j;
 import org.txazo.im.common.protocol.CommandType;
 import org.txazo.im.common.protocol.MessageBody;
 
 import java.util.List;
 
+@Slf4j
 public class ProtoDecoder extends ByteToMessageDecoder {
 
     @Override
@@ -26,14 +29,23 @@ public class ProtoDecoder extends ByteToMessageDecoder {
         byte[] messages = new byte[in.readShort()];
         in.readBytes(messages);
 
+        AbstractMessage msg = null;
+
         switch (command) {
             case CommandType.HeartbeatRequest:
-                return MessageBody.HeartbeatRequestPacket.parseFrom(messages);
+                msg = MessageBody.HeartbeatRequestPacket.parseFrom(messages);
+                break;
             case CommandType.HeartbeatResponse:
-                return MessageBody.HeartbeatResponsePacket.parseFrom(messages);
+                msg = MessageBody.HeartbeatResponsePacket.parseFrom(messages);
+                break;
             default:
-                return null;
         }
+
+        if (msg != null) {
+            log.debug("[Recv Packet] {} {}", msg.getClass().getSimpleName(), JsonFormat.printToString(msg));
+        }
+
+        return msg;
     }
 
 }

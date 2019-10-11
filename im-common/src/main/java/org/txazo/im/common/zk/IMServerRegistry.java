@@ -25,7 +25,7 @@ public class IMServerRegistry {
         } catch (Exception e) {
             log.error(String.format("ZkClient connect to %s failed", zkServers), e);
         }
-        log.debug("ZkClient connected to {}", zkServers);
+        log.info("ZkClient connected to {}", zkServers);
 
         if (!zkClient.exists(IM_SERVER_ROOT_PATH)) {
             zkClient.createPersistent(IM_SERVER_ROOT_PATH, true);
@@ -34,7 +34,7 @@ public class IMServerRegistry {
 
     public void registerIMServer(String ip, int port) {
         zkClient.createEphemeral(buildIMServerNodePath(ip, port), new IMServerRegistryBean(ip, port));
-        log.debug("IMServer {}:{} registered to ZkClient", ip, port);
+        log.info("IMServer {}:{} registered to ZkClient", ip, port);
     }
 
     public void unRegisterIMServer(String ip, int port) {

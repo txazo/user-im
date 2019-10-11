@@ -8,6 +8,9 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class IMServerConfig {
 
+    @Value("${im.handler.logging.enable:false}")
+    private boolean handlerLoggingEnable;
+
     @Value("${im.server.port:9000}")
     private Integer port;
 

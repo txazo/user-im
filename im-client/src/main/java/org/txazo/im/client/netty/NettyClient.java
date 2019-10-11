@@ -8,6 +8,8 @@ import io.netty.util.concurrent.GenericFutureListener;
 import lombok.extern.slf4j.Slf4j;
 import org.txazo.im.common.netty.handler.*;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 @Slf4j
 public class NettyClient {
 
@@ -16,7 +18,7 @@ public class NettyClient {
     private String host;
     private int port;
     // 重连次数
-    private int reconnectTimes = 0;
+    private AtomicInteger reconnectTimes = new AtomicInteger(0);
 
     private NettyClientConfig nettyClientConfig;
 
@@ -36,7 +38,7 @@ public class NettyClient {
 
     private void connect(boolean reconnect) {
         if (reconnect) {
-            log.debug("IMClient reconnecting to IMServer({}:{})", host, port);
+            log.info("IMClient reconnecting to IMServer({}:{})", host, port);
         }
 
         Bootstrap bootstrap = new Bootstrap();
@@ -49,10 +51,12 @@ public class NettyClient {
 
                     @Override
                     protected void initChannel(SocketChannel ch) throws Exception {
-                        ch.pipeline().addLast(nettyClientConfig.getBusinessGroup(), LoggingHandler.INSTANCE);
-                        ch.pipeline().addLast(nettyClientConfig.getBusinessGroup(), new BreakLineReconnectHandler(nettyClientConfig.getMaxReconnectTimes(), nettyClientConfig.getReconnectInterval(), () -> connect(true)));
+                        if (nettyClientConfig.isHandlerLoggingEnable()) {
+                            ch.pipeline().addLast(nettyClientConfig.getBusinessGroup(), LoggingHandler.INSTANCE);
+                        }
+                        ch.pipeline().addLast(nettyClientConfig.getBusinessGroup(), new BreakLineReconnectHandler(reconnectTimes, nettyClientConfig.getMaxReconnectTimes(), nettyClientConfig.getReconnectInterval(), () -> connect(true)));
                         ch.pipeline().addLast(nettyClientConfig.getBusinessGroup(), new IMIdleStateHandler(nettyClientConfig.getHeartbeatInterval(), 0, 0, nettyClientConfig.getIdleMaxTimes()));
-                        ch.pipeline().addLast(nettyClientConfig.getBusinessGroup(), new HeartbeatClientHandler(nettyClientConfig.getHeartbeatInterval()));
+                        ch.pipeline().addLast(nettyClientConfig.getBusinessGroup(), new HeartbeatHandler(nettyClientConfig.getHeartbeatInterval()));
                         ch.pipeline().addLast(nettyClientConfig.getBusinessGroup(), new IMLengthFieldBasedFrameDecoder());
                         ch.pipeline().addLast(nettyClientConfig.getBusinessGroup(), new ProtoDecoder());
                         ch.pipeline().addLast(nettyClientConfig.getBusinessGroup(), ProtoEncoder.INSTANCE);
@@ -66,9 +70,9 @@ public class NettyClient {
             public void operationComplete(ChannelFuture future) throws Exception {
                 if (future.isSuccess()) {
                     channel = future.channel();
-                    log.debug("IMClient connected to IMServer({}:{})", host, port);
+                    log.info("IMClient connected to IMServer({}:{})", host, port);
                 } else {
-                    log.debug("IMClient connect to IMServer({}:{}) failed", host, port);
+                    log.info("IMClient connect to IMServer({}:{}) failed", host, port);
                     future.channel().pipeline().fireChannelInactive();
                 }
             }

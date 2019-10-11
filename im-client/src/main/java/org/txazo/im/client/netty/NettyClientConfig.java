@@ -7,11 +7,13 @@ import org.txazo.im.common.netty.IMThreadFactory;
 @Data
 public class NettyClientConfig {
 
+    private boolean handlerLoggingEnable = false;
+
     // Netty连接超时时间
     private int connectTimeoutMillis = 5000;
 
     // 最大重连次数
-    private int maxReconnectTimes = 20;
+    private int maxReconnectTimes = 5;
 
     // 重连间隔
     private int reconnectInterval = 1;

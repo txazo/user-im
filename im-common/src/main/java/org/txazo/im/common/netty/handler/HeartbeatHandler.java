@@ -2,18 +2,20 @@ package org.txazo.im.common.netty.handler;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
+import lombok.extern.slf4j.Slf4j;
 import org.txazo.im.common.protocol.CommandType;
 import org.txazo.im.common.protocol.MessageBody;
 
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
-public class HeartbeatClientHandler extends ChannelInboundHandlerAdapter {
+@Slf4j
+public class HeartbeatHandler extends ChannelInboundHandlerAdapter {
 
     private int heartbeatInterval;
     private ScheduledFuture future;
 
-    public HeartbeatClientHandler(int heartbeatInterval) {
+    public HeartbeatHandler(int heartbeatInterval) {
         this.heartbeatInterval = heartbeatInterval;
     }
 
@@ -25,8 +27,13 @@ public class HeartbeatClientHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
-        future.cancel(true);
+        close();
         super.channelInactive(ctx);
+    }
+
+    @Override
+    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
+        ctx.close();
     }
 
     private void scheduleHeartbeat(ChannelHandlerContext ctx) {
@@ -36,8 +43,17 @@ public class HeartbeatClientHandler extends ChannelInboundHandlerAdapter {
                         .setCommand(CommandType.HeartbeatRequest)
                         .build();
                 ctx.channel().writeAndFlush(packet);
+            } else {
+                log.warn("Close heartbeat while channel inactive");
+                close();
             }
-        }, 5, heartbeatInterval, TimeUnit.SECONDS);
+        }, 1, heartbeatInterval, TimeUnit.SECONDS);
+    }
+
+    private void close() {
+        if (future != null) {
+            future.cancel(true);
+        }
     }
 
 }

@@ -6,12 +6,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.txazo.im.common.netty.ReconnectCallback;
 
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Slf4j
 public class BreakLineReconnectHandler extends ChannelInboundHandlerAdapter {
 
     // 重连次数
-    private int reconnectTimes = 0;
+    private AtomicInteger reconnectTimes;
     // 最大重连次数
     private final int maxReconnectTimes;
     // 重连间隔
@@ -19,7 +20,8 @@ public class BreakLineReconnectHandler extends ChannelInboundHandlerAdapter {
 
     private final ReconnectCallback reconnectCallback;
 
-    public BreakLineReconnectHandler(int maxReconnectTimes, int reconnectInterval, ReconnectCallback reconnectCallback) {
+    public BreakLineReconnectHandler(AtomicInteger reconnectTimes, int maxReconnectTimes, int reconnectInterval, ReconnectCallback reconnectCallback) {
+        this.reconnectTimes = reconnectTimes;
         this.maxReconnectTimes = maxReconnectTimes;
         this.reconnectInterval = reconnectInterval;
         this.reconnectCallback = reconnectCallback;
@@ -27,18 +29,18 @@ public class BreakLineReconnectHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
-        reconnectTimes = 0;
+        reconnectTimes.set(0);
         super.channelActive(ctx);
     }
 
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
-        if (reconnectTimes < maxReconnectTimes) {
-            reconnectTimes++;
-            ctx.channel().eventLoop().schedule(() -> reconnectCallback,
-                    ((int) Math.pow(2, reconnectInterval)) * reconnectTimes, TimeUnit.SECONDS);
+        if (reconnectTimes.get() < maxReconnectTimes) {
+            reconnectTimes.incrementAndGet();
+            ctx.channel().eventLoop().schedule(() -> reconnectCallback.reconnect(),
+                    ((int) Math.pow(2, reconnectTimes.get())) * reconnectInterval, TimeUnit.SECONDS);
         } else {
-            log.debug("IMClient closed after reconnect failed");
+            log.info("IMClient closed after reconnect failed");
             ctx.close();
         }
         super.channelInactive(ctx);

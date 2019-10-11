@@ -22,8 +22,6 @@ import javax.annotation.PostConstruct;
 @Slf4j
 public class IMServer {
 
-    private LoggingHandler loggingHandler = new LoggingHandler();
-
     @Autowired
     private IMServerConfig serverConfig;
 
@@ -47,9 +45,10 @@ public class IMServer {
 
                     @Override
                     protected void initChannel(ServerSocketChannel ch) throws Exception {
-                        ch.pipeline()
-                                .addLast(loggingHandler)
-                                .addLast(imServerRegisterHandler);
+                        if (serverConfig.isHandlerLoggingEnable()) {
+                            ch.pipeline().addLast(businessGroup, LoggingHandler.INSTANCE);
+                        }
+                        ch.pipeline().addLast(businessGroup, imServerRegisterHandler);
                     }
 
                 })
@@ -59,7 +58,9 @@ public class IMServer {
 
                     @Override
                     protected void initChannel(SocketChannel ch) throws Exception {
-                        ch.pipeline().addLast(businessGroup, LoggingHandler.INSTANCE);
+                        if (serverConfig.isHandlerLoggingEnable()) {
+                            ch.pipeline().addLast(businessGroup, LoggingHandler.INSTANCE);
+                        }
                         ch.pipeline().addLast(businessGroup, new IMIdleStateHandler(serverConfig.getHeartbeatInterval(), 0, 0, serverConfig.getIdleMaxTimes()));
                         ch.pipeline().addLast(businessGroup, new IMLengthFieldBasedFrameDecoder());
                         ch.pipeline().addLast(businessGroup, new ProtoDecoder());
@@ -73,17 +74,17 @@ public class IMServer {
     }
 
     private void bind(final ServerBootstrap serverBootstrap, final int port) {
-        log.debug("IMServer binding to port {}", port);
+        log.info("IMServer binding to port {}", port);
         serverBootstrap.bind(port).addListener(new GenericFutureListener<ChannelFuture>() {
 
             @Override
             public void operationComplete(ChannelFuture future) throws Exception {
                 if (future.isSuccess()) {
                     future.channel().attr(Attributes.PORT).set(port);
-                    log.debug("IMServer binded to port {}", port);
+                    log.info("IMServer binded to port {}", port);
                 } else {
-                    log.debug("IMServer bind to port {} failed", port);
-                    log.debug("IMServer rebinding ...");
+                    log.info("IMServer bind to port {} failed", port);
+                    log.info("IMServer rebinding ...");
                     bind(serverBootstrap, port + 1);
                 }
             }

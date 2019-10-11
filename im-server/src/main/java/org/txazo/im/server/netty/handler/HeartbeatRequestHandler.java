@@ -11,8 +11,6 @@ public class HeartbeatRequestHandler extends SimpleChannelInboundHandler<Message
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, MessageBody.HeartbeatRequestPacket msg) throws Exception {
-        log.debug("Received HeartbeatRequestPacket");
-
         MessageBody.HeartbeatResponsePacket packet = MessageBody.HeartbeatResponsePacket.newBuilder()
                 .setCommand(CommandType.HeartbeatResponse)
                 .build();

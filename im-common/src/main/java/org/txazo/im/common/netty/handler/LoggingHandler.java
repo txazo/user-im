@@ -13,114 +13,114 @@ public class LoggingHandler implements ChannelInboundHandler, ChannelOutboundHan
 
     @Override
     public void channelRegistered(ChannelHandlerContext ctx) throws Exception {
-        log.warn("channelRegistered");
+        log.debug("channelRegistered");
         ctx.fireChannelRegistered();
     }
 
     @Override
     public void channelUnregistered(ChannelHandlerContext ctx) throws Exception {
-        log.warn("channelUnregistered");
+        log.debug("channelUnregistered");
         ctx.fireChannelUnregistered();
     }
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
-        log.warn("channelActive");
+        log.debug("channelActive");
         ctx.fireChannelActive();
     }
 
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
-        log.warn("channelInactive");
+        log.debug("channelInactive");
         ctx.fireChannelInactive();
     }
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-        log.warn("channelRead");
+        log.debug("channelRead");
         ctx.fireChannelRead(msg);
     }
 
     @Override
     public void channelReadComplete(ChannelHandlerContext ctx) throws Exception {
-        log.warn("channelReadComplete");
+        log.debug("channelReadComplete");
         ctx.fireChannelReadComplete();
     }
 
     @Override
     public void userEventTriggered(ChannelHandlerContext ctx, Object evt) throws Exception {
-        log.warn("userEventTriggered");
+        log.debug("userEventTriggered");
         ctx.fireUserEventTriggered(evt);
     }
 
     @Override
     public void channelWritabilityChanged(ChannelHandlerContext ctx) throws Exception {
-        log.warn("channelWritabilityChanged");
+        log.debug("channelWritabilityChanged");
         ctx.fireChannelWritabilityChanged();
     }
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
-        log.warn("exceptionCaught");
+        log.error("exceptionCaught", cause);
         ctx.fireExceptionCaught(cause);
     }
 
     @Override
     public void bind(ChannelHandlerContext ctx, SocketAddress localAddress, ChannelPromise promise) throws Exception {
-        log.warn("bind");
+        log.debug("bind");
         ctx.bind(localAddress, promise);
     }
 
     @Override
     public void connect(ChannelHandlerContext ctx, SocketAddress remoteAddress, SocketAddress localAddress, ChannelPromise promise) throws Exception {
-        log.warn("connect");
+        log.debug("connect");
         ctx.connect(remoteAddress, localAddress, promise);
     }
 
     @Override
     public void disconnect(ChannelHandlerContext ctx, ChannelPromise promise) throws Exception {
-        log.warn("disconnect");
+        log.debug("disconnect");
         ctx.disconnect(promise);
     }
 
     @Override
     public void close(ChannelHandlerContext ctx, ChannelPromise promise) throws Exception {
-        log.warn("close");
+        log.debug("close");
         ctx.close(promise);
     }
 
     @Override
     public void deregister(ChannelHandlerContext ctx, ChannelPromise promise) throws Exception {
-        log.warn("deregister");
+        log.debug("deregister");
         ctx.deregister(promise);
     }
 
     @Override
     public void read(ChannelHandlerContext ctx) throws Exception {
-        log.warn("read");
+        log.debug("read");
         ctx.read();
     }
 
     @Override
     public void write(ChannelHandlerContext ctx, Object msg, ChannelPromise promise) throws Exception {
-        log.warn("write");
+        log.debug("write");
         ctx.write(msg, promise);
     }
 
     @Override
     public void flush(ChannelHandlerContext ctx) throws Exception {
-        log.warn("flush");
+        log.debug("flush");
         ctx.flush();
     }
 
     @Override
     public void handlerAdded(ChannelHandlerContext ctx) throws Exception {
-        log.warn("handlerAdded");
+        log.debug("handlerAdded");
     }
 
     @Override
     public void handlerRemoved(ChannelHandlerContext ctx) throws Exception {
-        log.warn("handlerRemoved");
+        log.debug("handlerRemoved");
     }
 
 }
