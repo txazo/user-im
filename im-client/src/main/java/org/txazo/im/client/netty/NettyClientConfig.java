@@ -19,7 +19,7 @@ public class NettyClientConfig {
     private int reconnectInterval = 1;
 
     // 心跳间隔
-    private int heartbeatInterval = 10;
+    private int heartbeatInterval = 1;
 
     private Integer idleMaxTimes = 3;
 

@@ -23,6 +23,9 @@ public class IMServerConfig {
     @Value("${im.server.heartbeat.interval:10}")
     private Integer heartbeatInterval;
 
+    @Value("${im.server.heartbeat.resp.interval:10}")
+    private Integer heartbeatRespInterval;
+
     @Value("${im.server.netty.boosGroup.threads:1}")
     private Integer boosGroupThreads;
 

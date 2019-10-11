@@ -64,7 +64,7 @@ public class IMServer {
                         ch.pipeline().addLast(businessGroup, new IMIdleStateHandler(serverConfig.getHeartbeatInterval(), 0, 0, serverConfig.getIdleMaxTimes()));
                         ch.pipeline().addLast(businessGroup, new IMLengthFieldBasedFrameDecoder());
                         ch.pipeline().addLast(businessGroup, new ProtoDecoder());
-                        ch.pipeline().addLast(businessGroup, new HeartbeatRequestHandler());
+                        ch.pipeline().addLast(businessGroup, new HeartbeatRequestHandler(serverConfig.getHeartbeatRespInterval()));
                         ch.pipeline().addLast(businessGroup, ProtoEncoder.INSTANCE);
                     }
 
