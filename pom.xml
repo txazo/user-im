@@ -21,6 +21,7 @@
         <module>im-server</module>
         <module>im-client</module>
         <module>im-route</module>
+        <module>user</module>
     </modules>
 
     <build>
