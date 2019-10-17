@@ -12,3 +12,13 @@ message HeartbeatRequestPacket {
 message HeartbeatResponsePacket {
   int32 command = 1;
 }
+
+message AuthRequestPacket {
+  int32 userId = 1;
+  string token = 2;
+}
+
+message AuthResponsePacket {
+  int32 code = 1;
+  string msg = 2;
+}

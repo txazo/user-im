@@ -6,6 +6,7 @@ import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.util.concurrent.GenericFutureListener;
 import lombok.extern.slf4j.Slf4j;
+import org.txazo.im.client.netty.handler.AuthRequestHandler;
 import org.txazo.im.common.netty.handler.*;
 
 import java.util.concurrent.atomic.AtomicInteger;
@@ -54,6 +55,7 @@ public class NettyClient {
                         if (nettyClientConfig.isHandlerLoggingEnable()) {
                             ch.pipeline().addLast(nettyClientConfig.getBusinessGroup(), LoggingHandler.INSTANCE);
                         }
+                        ch.pipeline().addLast(nettyClientConfig.getBusinessGroup(), new AuthRequestHandler(1, "root"));
                         ch.pipeline().addLast(nettyClientConfig.getBusinessGroup(), new BreakLineReconnectHandler(reconnectTimes, nettyClientConfig.getMaxReconnectTimes(), nettyClientConfig.getReconnectInterval(), () -> connect(true)));
                         ch.pipeline().addLast(nettyClientConfig.getBusinessGroup(), new IMIdleStateHandler(nettyClientConfig.getHeartbeatInterval(), 0, 0, nettyClientConfig.getIdleMaxTimes()));
                         ch.pipeline().addLast(nettyClientConfig.getBusinessGroup(), new HeartbeatHandler(nettyClientConfig.getHeartbeatInterval()));
